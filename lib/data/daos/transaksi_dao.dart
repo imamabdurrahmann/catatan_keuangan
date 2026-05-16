@@ -620,4 +620,67 @@ class TransaksiDao {
 
     return totalPengeluaran / elapsedDays;
   }
+
+  /// Efficiently retrieves daily expense totals for a date range in a single query.
+  ///
+  /// This is optimized for charts and dashboards that need weekly/monthly spending
+  /// data. Returns a map of date strings (yyyy-MM-dd) to total expenses.
+  ///
+  /// Uses the composite index (id_dompet, deleted_at, tanggal) for optimal performance.
+  Future<Map<String, double>> getDailyExpenseTotals({
+    required DateTime startDate,
+    required DateTime endDate,
+    int? idDompet,
+  }) async {
+    final results = await db.rawQuery(
+      '''
+      SELECT
+        substr(tanggal, 1, 10) as date,
+        COALESCE(SUM(jumlah), 0) as total
+      FROM transaksi
+      WHERE jenis = 'pengeluaran'
+        AND tanggal >= ?
+        AND tanggal < ?
+        AND deleted_at IS NULL
+        ${idDompet != null ? 'AND id_dompet = ?' : ''}
+      GROUP BY substr(tanggal, 1, 10)
+      ORDER BY date ASC
+      ''',
+      [
+        '${DateFormat('yyyy-MM-dd').format(startDate)} 00:00:00',
+        '${DateFormat('yyyy-MM-dd').format(endDate.add(const Duration(days: 1)))} 00:00:00',
+        if (idDompet != null) idDompet,
+      ],
+    );
+
+    return {
+      for (var row in results)
+        row['date'] as String: (row['total'] as num).toDouble()
+    };
+  }
+
+  /// Retrieves daily expense totals for the last N days.
+  /// Returns a list aligned to the specified day range.
+  Future<List<double>> getDailyExpensesForDays(int days, {int? idDompet}) async {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final startDate = today.subtract(Duration(days: days - 1));
+    final endDate = today;
+
+    final totals = await getDailyExpenseTotals(
+      startDate: startDate,
+      endDate: endDate,
+      idDompet: idDompet,
+    );
+
+    // Build aligned list
+    final result = <double>[];
+    for (var i = 0; i < days; i++) {
+      final date = startDate.add(Duration(days: i));
+      final dateStr = '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+      result.add(totals[dateStr] ?? 0.0);
+    }
+
+    return result;
+  }
 }

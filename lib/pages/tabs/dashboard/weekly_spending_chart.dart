@@ -2,10 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../../providers.dart';
+import '../../../data/database_helper.dart';
 import '../../../theme/theme.dart';
 import 'shared_dashboard_widgets.dart';
 import '../../../widgets/common/glass_container.dart';
 import '../../../utils/formatters.dart';
+
+// Provider for cached weekly spending data
+final weeklySpendingProvider = FutureProvider.autoDispose<List<double>>((ref) async {
+  ref.watch(updateSignalsProvider.select((s) => s['transaksi']));
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final days = List.generate(7, (i) => today.subtract(Duration(days: 6 - i)));
+
+  // Fetch all transactions for the week in one query
+  final startDate = days.first;
+  final endDate = days.last.add(const Duration(days: 1));
+
+  // Use a single query to get all transactions for the week
+  final db = await DatabaseHelper.instance.database;
+  final result = await db.query(
+    'transaksi',
+    where: 'tanggal >= ? AND tanggal < ? AND deleted_at IS NULL AND jenis = ?',
+    whereArgs: [
+      '${startDate.year}-${startDate.month.toString().padLeft(2, '0')}-${startDate.day.toString().padLeft(2, '0')} 00:00:00',
+      '${endDate.year}-${endDate.month.toString().padLeft(2, '0')}-${endDate.day.toString().padLeft(2, '0')} 00:00:00',
+      'pengeluaran',
+    ],
+  );
+
+  // Build daily totals from transaction results
+  final dailyTotals = List<double>.filled(7, 0.0);
+  for (var row in result) {
+    final tanggal = row['tanggal'] as String;
+    final jumlah = (row['jumlah'] as num?)?.toDouble() ?? 0.0;
+    // Parse date part from timestamp
+    final datePart = tanggal.substring(0, 10);
+    for (var i = 0; i < days.length; i++) {
+      final dayStr = '${days[i].year}-${days[i].month.toString().padLeft(2, '0')}-${days[i].day.toString().padLeft(2, '0')}';
+      if (datePart == dayStr) {
+        dailyTotals[i] += jumlah;
+        break;
+      }
+    }
+  }
+
+  return dailyTotals;
+});
 
 class WeeklySpendingChart extends ConsumerWidget {
   const WeeklySpendingChart({super.key});
@@ -33,59 +76,16 @@ class _WeeklyBarChart extends ConsumerWidget {
 
   const _WeeklyBarChart({required this.isDark});
 
-  String _buildSemanticLabel(List<double> dailyTotals, List<DateTime> days) {
-    final dayNames = [
-      'Senin',
-      'Selasa',
-      'Rabu',
-      'Kamis',
-      'Jumat',
-      'Sabtu',
-      'Minggu',
-    ];
-    final buffer = StringBuffer('Grafik pengeluaran 7 hari terakhir. ');
-    for (var i = 0; i < days.length; i++) {
-      final dayName = dayNames[days[i].weekday - 1];
-      final value = i < dailyTotals.length ? dailyTotals[i] : 0.0;
-      buffer.write('$dayName: Rp ${formatRupiah(value.toDouble())}. ');
-    }
-    return buffer.toString();
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final days = List.generate(7, (i) => today.subtract(Duration(days: 6 - i)));
 
-    return FutureBuilder<List<dynamic>>(
-      future: Future.wait(
-        days.map((d) => ref.read(transaksiByDateProvider(d).future)),
-      ),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'Error: ${snapshot.error}',
-              style: const TextStyle(color: AppColors.coral),
-            ),
-          );
-        }
+    final asyncData = ref.watch(weeklySpendingProvider);
 
-        final dailyTotals = snapshot.data!
-            .map<List<double>>((txList) {
-              double expense = 0;
-              for (var t in txList) {
-                if (t.jenis == 'pengeluaran') expense += t.jumlah;
-              }
-              return [expense];
-            })
-            .expand((x) => x)
-            .toList();
-
+    return asyncData.when(
+      data: (dailyTotals) {
         final maxY = dailyTotals.isEmpty
             ? 100.0
             : dailyTotals.reduce((a, b) => a > b ? a : b);
@@ -114,7 +114,7 @@ class _WeeklyBarChart extends ConsumerWidget {
                       final index = value.toInt();
                       if (index < 0 || index >= days.length)
                         return const SizedBox();
-                      final dayNames = [
+                      const dayNames = [
                         'Sen',
                         'Sel',
                         'Rab',
@@ -200,6 +200,32 @@ class _WeeklyBarChart extends ConsumerWidget {
           ),
         );
       },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, _) => Center(
+        child: Text(
+          'Error: $e',
+          style: const TextStyle(color: AppColors.coral),
+        ),
+      ),
     );
+  }
+
+  String _buildSemanticLabel(List<double> dailyTotals, List<DateTime> days) {
+    const dayNames = [
+      'Senin',
+      'Selasa',
+      'Rabu',
+      'Kamis',
+      'Jumat',
+      'Sabtu',
+      'Minggu',
+    ];
+    final buffer = StringBuffer('Grafik pengeluaran 7 hari terakhir. ');
+    for (var i = 0; i < days.length; i++) {
+      final dayName = dayNames[days[i].weekday - 1];
+      final value = i < dailyTotals.length ? dailyTotals[i] : 0.0;
+      buffer.write('$dayName: Rp ${formatRupiah(value.toDouble())}. ');
+    }
+    return buffer.toString();
   }
 }

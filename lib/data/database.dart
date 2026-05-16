@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 /// Database version constant
-const int DB_VERSION = 12;
+const int DB_VERSION = 13;
 
 /// Table name constants
 const String TABLE_TRANSAKSI = 'transaksi';
@@ -133,6 +133,10 @@ const String CREATE_INDEX_TRANSAKSI_JENIS =
     'CREATE INDEX IF NOT EXISTS idx_transaksi_jenis ON transaksi(jenis)';
 const String CREATE_INDEX_TRANSAKSI_DOMPET =
     'CREATE INDEX IF NOT EXISTS idx_transaksi_dompet ON transaksi(id_dompet)';
+const String CREATE_INDEX_TRANSAKSI_DELETED =
+    'CREATE INDEX IF NOT EXISTS idx_transaksi_deleted ON transaksi(deleted_at)';
+const String CREATE_INDEX_TRANSAKSI_COMPOSITE =
+    'CREATE INDEX IF NOT EXISTS idx_transaksi_dompet_deleted_tanggal ON transaksi(id_dompet, deleted_at, tanggal)';
 const String CREATE_INDEX_BUDGET_PERIOD =
     'CREATE INDEX IF NOT EXISTS idx_budget_period ON budget(bulan, tahun, kategori)';
 
@@ -446,6 +450,22 @@ Future<void> runMigrations(Database db, int oldVersion, int newVersion) async {
       // Intentionally silent — column may already exist
     }
   }
+
+  if (oldVersion < 13) {
+    // Performance optimization: Add index on deleted_at for soft-delete queries
+    try {
+      await db.execute(CREATE_INDEX_TRANSAKSI_DELETED);
+    } catch (_) {
+      // Intentionally silent — index may already exist
+    }
+    // Performance optimization: Add composite index for filtered transaction queries
+    // This covers queries that filter by id_dompet, deleted_at, and tanggal together
+    try {
+      await db.execute(CREATE_INDEX_TRANSAKSI_COMPOSITE);
+    } catch (_) {
+      // Intentionally silent — index may already exist
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -460,6 +480,8 @@ Future<void> createSchema(Database db, int version) async {
   await db.execute(CREATE_INDEX_TRANSAKSI_KATEGORI);
   await db.execute(CREATE_INDEX_TRANSAKSI_JENIS);
   await db.execute(CREATE_INDEX_TRANSAKSI_DOMPET);
+  await db.execute(CREATE_INDEX_TRANSAKSI_DELETED);
+  await db.execute(CREATE_INDEX_TRANSAKSI_COMPOSITE);
 
   await db.execute(CREATE_TABLE_DOMPET);
 

@@ -10,6 +10,7 @@ import '../../data/database_helper.dart';
 import '../../services/file_service.dart';
 
 import '../../widgets/shared_widgets.dart';
+import '../../widgets/common/widgets.dart';
 import '../../utils/ui_utils.dart';
 import '../../theme/theme.dart';
 import '../../widgets/common/glass_button.dart';
@@ -238,7 +239,12 @@ class _TambahTransaksiSheetState extends ConsumerState<TambahTransaksiSheet> {
       body: Builder(
         builder: (scaffoldContext) {
           try {
-            return _buildContent(scaffoldContext);
+            return Semantics(
+              label: 'Form tambah transaksi baru',
+              scopesRoute: true,
+              explicitChildNodes: true,
+              child: _buildContent(scaffoldContext),
+            );
           } catch (e, st) {
             return _buildFallbackSheet(scaffoldContext, e, st);
           }
@@ -407,6 +413,7 @@ class _TambahTransaksiSheetState extends ConsumerState<TambahTransaksiSheet> {
                     color: isDark ? Colors.white54 : Colors.grey,
                   ),
                   onPressed: () => Navigator.pop(context),
+                  tooltip: 'Tutup form',
                 ),
               ],
             ),
@@ -439,125 +446,142 @@ class _TambahTransaksiSheetState extends ConsumerState<TambahTransaksiSheet> {
                   ),
                   const SizedBox(height: 16),
                   // Jumlah
-                  TextField(
-                    controller: _jumlahController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      _currencyFmt,
-                    ],
-                    style: TextStyle(
-                      fontFamily: 'PlusJakartaSans',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      color: isDark ? Colors.white : const Color(0xFF1A1A2E),
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Jumlah',
-                      prefixText: 'Rp ',
-                      prefixStyle: TextStyle(
+                  Semantics(
+                    label: 'Masukkan jumlah transaksi dalam Rupiah',
+                    hint: 'Wajib diisi, hanya angka',
+                    child: TextField(
+                      controller: _jumlahController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        _currencyFmt,
+                      ],
+                      style: TextStyle(
                         fontFamily: 'PlusJakartaSans',
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
-                        color: accentColor,
+                        color: isDark ? Colors.white : const Color(0xFF1A1A2E),
                       ),
-                      filled: true,
-                      fillColor: isDark
-                          ? AppColors.darkCard.withValues(alpha: 0.5)
-                          : AppColors.lightBg,
+                      decoration: InputDecoration(
+                        labelText: 'Jumlah',
+                        prefixText: 'Rp ',
+                        prefixStyle: TextStyle(
+                          fontFamily: 'PlusJakartaSans',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          color: accentColor,
+                        ),
+                        filled: true,
+                        fillColor: isDark
+                            ? AppColors.darkCard.withValues(alpha: 0.5)
+                            : AppColors.lightBg,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
                   // Dompet Selector
-                  Text(
-                    'Pilih Dompet',
-                    style: TextStyle(
-                      fontFamily: 'PlusJakartaSans',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: isDark ? Colors.white70 : const Color(0xFF6B7280),
+                  Semantics(
+                    label: 'Pilih dompet untuk transaksi ini',
+                    hint: 'Wajib dipilih',
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Pilih Dompet',
+                          style: TextStyle(
+                            fontFamily: 'PlusJakartaSans',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            color: isDark ? Colors.white70 : const Color(0xFF6B7280),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        ref
+                            .watch(dompetProvider)
+                            .when(
+                              loading: () => const ShimmerFormField(),
+                              error: (e, _) => Text('Error: $e'),
+                              data: (dompetList) {
+                                if (dompetList.isEmpty)
+                                  return const Text('Belum ada dompet');
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                  decoration: BoxDecoration(
+                                    color: isDark
+                                        ? AppColors.darkCard.withValues(alpha: 0.5)
+                                        : AppColors.lightBg,
+                                    borderRadius: BorderRadius.circular(14),
+                                    border: Border.all(
+                                      color: isDark
+                                          ? AppColors.darkBorder
+                                          : AppColors.lightBorder,
+                                    ),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                    child: DropdownButton<int>(
+                                      isExpanded: true,
+                                      value: _selectedDompetId ?? dompetList.first.id,
+                                      dropdownColor: isDark
+                                          ? AppColors.darkCard
+                                          : Colors.white,
+                                      items: dompetList.map((d) {
+                                        return DropdownMenuItem<int>(
+                                          value: d.id,
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.account_balance_wallet_rounded,
+                                                color: getAppColor(d.warna),
+                                              ),
+                                              const SizedBox(width: 12),
+                                              Text(
+                                                d.nama,
+                                                style: TextStyle(
+                                                  fontFamily: 'PlusJakartaSans',
+                                                  color: isDark
+                                                      ? Colors.white
+                                                      : const Color(0xFF1A1A2E),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (val) {
+                                        if (val != null)
+                                          setState(() => _selectedDompetId = val);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  ref
-                      .watch(dompetProvider)
-                      .when(
-                        loading: () => const CircularProgressIndicator(),
-                        error: (e, _) => Text('Error: $e'),
-                        data: (dompetList) {
-                          if (dompetList.isEmpty)
-                            return const Text('Belum ada dompet');
-                          return Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? AppColors.darkCard.withValues(alpha: 0.5)
-                                  : AppColors.lightBg,
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: isDark
-                                    ? AppColors.darkBorder
-                                    : AppColors.lightBorder,
-                              ),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<int>(
-                                isExpanded: true,
-                                value: _selectedDompetId ?? dompetList.first.id,
-                                dropdownColor: isDark
-                                    ? AppColors.darkCard
-                                    : Colors.white,
-                                items: dompetList.map((d) {
-                                  return DropdownMenuItem<int>(
-                                    value: d.id,
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.account_balance_wallet_rounded,
-                                          color: getAppColor(d.warna),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Text(
-                                          d.nama,
-                                          style: TextStyle(
-                                            fontFamily: 'PlusJakartaSans',
-                                            color: isDark
-                                                ? Colors.white
-                                                : const Color(0xFF1A1A2E),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (val) {
-                                  if (val != null)
-                                    setState(() => _selectedDompetId = val);
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                      ),
                   const SizedBox(height: 16),
                   // Deskripsi
-                  TextField(
-                    controller: _deskripsiController,
-                    maxLength: 255,
-                    style: TextStyle(
-                      fontFamily: 'PlusJakartaSans',
-                      fontWeight: FontWeight.w500,
-                      color: isDark ? Colors.white : const Color(0xFF1A1A2E),
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'Deskripsi',
-                      counterText: '',
-                      filled: true,
-                      fillColor: isDark
-                          ? AppColors.darkCard.withValues(alpha: 0.5)
-                          : AppColors.lightBg,
+                  Semantics(
+                    label: 'Masukkan deskripsi transaksi',
+                    hint: 'Opsional, maksimal 255 karakter',
+                    child: TextField(
+                      controller: _deskripsiController,
+                      maxLength: 255,
+                      style: TextStyle(
+                        fontFamily: 'PlusJakartaSans',
+                        fontWeight: FontWeight.w500,
+                        color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'Deskripsi',
+                        counterText: '',
+                        filled: true,
+                        fillColor: isDark
+                            ? AppColors.darkCard.withValues(alpha: 0.5)
+                            : AppColors.lightBg,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -584,7 +608,19 @@ class _TambahTransaksiSheetState extends ConsumerState<TambahTransaksiSheet> {
                   const SizedBox(height: 10),
                   kategoriAsync.when(
                     loading: () =>
-                        const Center(child: CircularProgressIndicator()),
+                        const SizedBox(
+                          width: double.infinity,
+                          child: Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              ShimmerContainer(height: 40, width: 80),
+                              ShimmerContainer(height: 40, width: 100),
+                              ShimmerContainer(height: 40, width: 90),
+                              ShimmerContainer(height: 40, width: 70),
+                            ],
+                          ),
+                        ),
                     error: (e, _) => Text('Error: $e'),
                     data: (kategoriList) => KategoriSelector(
                       kategoriList: kategoriList,
@@ -609,12 +645,18 @@ class _TambahTransaksiSheetState extends ConsumerState<TambahTransaksiSheet> {
                         ),
                       ),
                       const Spacer(),
-                      IconButton(
-                        icon: Icon(
-                          Icons.attach_file_rounded,
-                          color: accentColor,
+                      Semantics(
+                        label: 'Tambah lampiran',
+                        hint: 'Tekan untuk menambahkan file lampiran',
+                        button: true,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.attach_file_rounded,
+                            color: accentColor,
+                          ),
+                          onPressed: _pickAttachment,
+                          tooltip: 'Tambah Lampiran',
                         ),
-                        onPressed: _pickAttachment,
                       ),
                     ],
                   ),

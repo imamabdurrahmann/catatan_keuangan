@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../services/backup_service.dart';
 import '../../services/export_service.dart';
+import '../../services/excel_export_service.dart';
 import '../../providers.dart';
 import '../../theme/theme.dart';
 import '../../widgets/common/glass_container.dart';
@@ -269,6 +270,66 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
     }
   }
 
+  Future<void> _performExportExcel() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final savedPath = await ExcelExportService.instance
+          .exportAndShareTransactionsExcel();
+
+      if (!mounted) return;
+
+      if (savedPath != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Export Excel berhasil',
+              style: TextStyle(fontFamily: 'PlusJakartaSans'),
+            ),
+            backgroundColor: AppColors.emerald,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Gagal mengekspor file Excel',
+              style: TextStyle(fontFamily: 'PlusJakartaSans'),
+            ),
+            backgroundColor: Colors.red.shade600,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Gagal mengekspor Excel: $e',
+            style: TextStyle(fontFamily: 'PlusJakartaSans'),
+          ),
+          backgroundColor: Colors.red.shade600,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -474,8 +535,10 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
                   ),
                 ),
 
-                // Export CSV section
+                // Export section
                 _SectionHeader(title: 'Export', isDark: isDark),
+
+                // Export CSV
                 GlassContainer(
                   margin: const EdgeInsets.only(bottom: 16),
                   padding: const EdgeInsets.all(20),
@@ -516,7 +579,7 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  'Ekspor transaksi ke file CSV (Excel)',
+                                  'Ekspor transaksi ke file CSV',
                                   style: TextStyle(
                                     fontFamily: 'PlusJakartaSans',
                                     fontSize: 11,
@@ -560,6 +623,101 @@ class _BackupRestorePageState extends ConsumerState<BackupRestorePage> {
                             ),
                             side: BorderSide(
                               color: AppColors.primaryMid.withValues(
+                                alpha: 0.5,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Export Excel
+                GlassContainer(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.green.withValues(
+                                alpha: 0.1,
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Icon(
+                              Icons.grid_on_rounded,
+                              color: Colors.green,
+                              size: 20,
+                            ),
+                          ),
+                          const SizedBox(width: 14),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Export Excel',
+                                  style: TextStyle(
+                                    fontFamily: 'PlusJakartaSans',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: isDark
+                                        ? Colors.white
+                                        : const Color(0xFF1A1A2E),
+                                  ),
+                                ),
+                                const SizedBox(height: 2),
+                                Text(
+                                  'Ekspor transaksi ke file Excel (.xlsx)',
+                                  style: TextStyle(
+                                    fontFamily: 'PlusJakartaSans',
+                                    fontSize: 11,
+                                    color: isDark
+                                        ? Colors.white54
+                                        : const Color(0xFF6B7280),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: _isLoading ? null : _performExportExcel,
+                          icon: _isLoading
+                              ? SizedBox(
+                                  width: 16,
+                                  height: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.green,
+                                  ),
+                                )
+                              : Icon(Icons.grid_view_rounded, size: 18),
+                          label: Text(
+                            _isLoading ? 'Memproses...' : 'Export Excel',
+                            style: TextStyle(
+                              fontFamily: 'PlusJakartaSans',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.green,
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            side: BorderSide(
+                              color: Colors.green.withValues(
                                 alpha: 0.5,
                               ),
                             ),

@@ -139,6 +139,155 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   ),
                 ),
 
+                // ========== ACCESSIBILITY SECTION ==========
+                _SectionHeader(title: 'Aksesibilitas', isDark: isDark),
+                GlassContainer(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  child: Column(
+                    children: [
+                      Semantics(
+                        label: 'Mode kontras tinggi',
+                        hint: 'Aktifkan untuk meningkatkan kontras warna sesuai standar WCAG',
+                        child: _SettingsTile(
+                          icon: Icons.contrast_rounded,
+                          iconColor: AppColors.gold,
+                          title: 'Mode Kontras Tinggi',
+                          subtitle: 'Meningkatkan kontras warna untuk keterbacaan lebih baik',
+                          trailing: Switch(
+                            value: false,
+                            onChanged: (value) {
+                              // TODO: Implement high contrast mode toggle
+                              // This would toggle a high contrast preference in settings
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Mode kontras tinggi akan segera hadir',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            activeTrackColor: AppColors.emerald,
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        color: isDark
+                            ? AppColors.darkDivider
+                            : AppColors.lightDivider,
+                        height: 1,
+                      ),
+                      Semantics(
+                        label: 'Ukuran font besar',
+                        hint: 'Aktifkan untuk menggunakan ukuran font yang lebih besar',
+                        child: _SettingsTile(
+                          icon: Icons.text_fields_rounded,
+                          iconColor: AppColors.coral,
+                          title: 'Ukuran Font Besar',
+                          subtitle: 'Gunakan ukuran font lebih besar',
+                          trailing: Switch(
+                            value: false,
+                            onChanged: (value) {
+                              // TODO: Implement large font mode
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Mode font besar akan segera hadir',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            activeTrackColor: AppColors.emerald,
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        color: isDark
+                            ? AppColors.darkDivider
+                            : AppColors.lightDivider,
+                        height: 1,
+                      ),
+                      Semantics(
+                        label: 'Deskripsi audio',
+                        hint: 'Aktifkan deskripsi audio untuk elemen visual',
+                        child: _SettingsTile(
+                          icon: Icons.record_voice_over_rounded,
+                          iconColor: AppColors.teal,
+                          title: 'Deskripsi Audio',
+                          subtitle: 'Memberikan deskripsi untuk elemen visual',
+                          trailing: Switch(
+                            value: false,
+                            onChanged: (value) {
+                              // TODO: Implement audio description mode
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Deskripsi audio akan segera hadir',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            activeTrackColor: AppColors.emerald,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // ========== ACCESSIBILITY INFO ==========
+                GlassContainer(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryMid.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.accessibility_new_rounded,
+                          color: AppColors.primaryMid,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Dukungan Aksesibilitas',
+                              style: TextStyle(
+                                fontFamily: 'PlusJakartaSans',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Aplikasi ini mendukung TalkBack dan VoiceOver dengan label semantik yang lengkap.',
+                              style: TextStyle(
+                                fontFamily: 'PlusJakartaSans',
+                                fontSize: 11,
+                                color: isDark ? Colors.white54 : const Color(0xFF6B7280),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 // ========== SECURITY SECTION ==========
                 if (hasPin) ...[
                   _SectionHeader(title: 'Keamanan', isDark: isDark),

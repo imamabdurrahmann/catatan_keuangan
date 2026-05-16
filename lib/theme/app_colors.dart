@@ -35,6 +35,57 @@ class AppColors {
   static Color glassLight = Colors.white.withValues(alpha: 0.7);
   static Color glassDark = Colors.black.withValues(alpha: 0.3);
 
+  // High contrast colors for accessibility
+  static const Color highContrastBg = Color(0xFFFFFFFF);
+  static const Color highContrastSurface = Color(0xFFF0F0F0);
+  static const Color highContrastCard = Color(0xFFFFFFFF);
+  static const Color highContrastBorder = Color(0xFF000000);
+  static const Color highContrastText = Color(0xFF000000);
+  static const Color highContrastSecondary = Color(0xFF333333);
+
+  // High contrast dark theme
+  static const Color highContrastDarkBg = Color(0xFF000000);
+  static const Color highContrastDarkSurface = Color(0xFF1A1A1A);
+  static const Color highContrastDarkCard = Color(0xFF1A1A1A);
+  static const Color highContrastDarkBorder = Color(0xFFFFFFFF);
+  static const Color highContrastDarkText = Color(0xFFFFFFFF);
+
+  // Minimum contrast ratio for WCAG AA compliance
+  // Normal text: 4.5:1, Large text: 3:1, UI components: 3:1
+  static const double minContrastNormal = 4.5;
+  static const double minContrastLarge = 3.0;
+  static const double minContrastUI = 3.0;
+
+  /// Checks if high contrast mode is enabled via system preferences
+  static bool isHighContrastEnabled(BuildContext context) {
+    final accessibilityContrast = MediaQuery.of(context).highContrast;
+
+    // Check for high contrast accessibility setting
+    if (accessibilityContrast) return true;
+
+    return false;
+  }
+
+  /// Returns the appropriate high contrast surface color based on brightness
+  static Color getHighContrastSurface(bool isDark) {
+    return isDark ? highContrastDarkSurface : highContrastSurface;
+  }
+
+  /// Returns the appropriate high contrast background color based on brightness
+  static Color getHighContrastBackground(bool isDark) {
+    return isDark ? highContrastDarkBg : highContrastBg;
+  }
+
+  /// Returns the appropriate high contrast text color based on brightness
+  static Color getHighContrastText(bool isDark) {
+    return isDark ? highContrastDarkText : highContrastText;
+  }
+
+  /// Returns the appropriate high contrast border color based on brightness
+  static Color getHighContrastBorder(bool isDark) {
+    return isDark ? highContrastDarkBorder : highContrastBorder;
+  }
+
   // Gradients
   static const LinearGradient incomeGradient = LinearGradient(
     colors: [Color(0xFF10B981), Color(0xFF059669)],
@@ -71,4 +122,94 @@ class AppColors {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+}
+
+/// Helper class for contrast calculations
+class ContrastHelper {
+  /// Calculates relative luminance of a color
+  /// Following WCAG 2.1 formula: https://www.w3.org/TR/WCAG21/#dfn-relative-luminance
+  static double getRelativeLuminance(Color color) {
+    double r = (color.r * 255.0).round().clamp(0, 255) / 255.0;
+    double g = (color.g * 255.0).round().clamp(0, 255) / 255.0;
+    double b = (color.b * 255.0).round().clamp(0, 255) / 255.0;
+
+    r = r <= 0.03928 ? r / 12.92 : _pow((r + 0.055) / 1.055, 2.4);
+    g = g <= 0.03928 ? g / 12.92 : _pow((g + 0.055) / 1.055, 2.4);
+    b = b <= 0.03928 ? b / 12.92 : _pow((b + 0.055) / 1.055, 2.4);
+
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+
+  static double _pow(double base, double exponent) {
+    if (exponent == 2.4) {
+      return base * base * base * base;
+    }
+    // Fallback for other exponents using dart:math
+    return _powNative(base, exponent);
+  }
+
+  static double _powNative(double base, double exponent) {
+    if (base == 0) return 0;
+    if (base < 0) return -_powNative(-base, exponent);
+    // Use simple approximation for non-2.4 exponents
+    return _exp(exponent * _log(base));
+  }
+
+  static double _exp(double x) {
+    // Taylor series approximation for e^x
+    double result = 1.0;
+    double term = 1.0;
+    for (int i = 1; i <= 20; i++) {
+      term *= x / i;
+      result += term;
+    }
+    return result;
+  }
+
+  static double _log(double x) {
+    // Natural log approximation using Newton's method
+    if (x <= 0) return double.negativeInfinity;
+    if (x == 1) return 0;
+
+    // Initial guess based on range
+    double y = x - 1;
+    if (y > 0) {
+      // For x > 1, use Newton's method
+      double result = 0.0;
+      double term = y;
+      for (int i = 1; i <= 50; i++) {
+        result += term / i;
+        term *= -y;
+      }
+      return result;
+    }
+    return -_log(1 / x);
+  }
+
+  /// Calculates contrast ratio between two colors
+  /// Following WCAG 2.1 formula: https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio
+  static double getContrastRatio(Color foreground, Color background) {
+    final fgLum = getRelativeLuminance(foreground);
+    final bgLum = getRelativeLuminance(background);
+
+    final lighter = fgLum > bgLum ? fgLum : bgLum;
+    final darker = fgLum > bgLum ? bgLum : fgLum;
+
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+
+  /// Checks if contrast ratio meets WCAG AA for normal text (4.5:1)
+  static bool meetsAANormalText(Color foreground, Color background) {
+    return getContrastRatio(foreground, background) >= AppColors.minContrastNormal;
+  }
+
+  /// Checks if contrast ratio meets WCAG AA for large text (3:1)
+  static bool meetsAALargeText(Color foreground, Color background) {
+    return getContrastRatio(foreground, background) >= AppColors.minContrastLarge;
+  }
+
+  /// Checks if contrast ratio meets WCAG AA for UI components (3:1)
+  static bool meetsAAUIComponents(Color foreground, Color background) {
+    return getContrastRatio(foreground, background) >= AppColors.minContrastUI;
+  }
 }

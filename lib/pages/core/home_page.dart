@@ -58,6 +58,102 @@ class _GlassIconButton extends StatelessWidget {
   }
 }
 
+// ==================== ANIMATED FAB ====================
+class _AnimatedFAB extends StatefulWidget {
+  final VoidCallback? onPressed;
+  final Color? accentColor;
+
+  const _AnimatedFAB({
+    this.onPressed,
+    this.accentColor,
+  });
+
+  @override
+  State<_AnimatedFAB> createState() => _AnimatedFABState();
+}
+
+class _AnimatedFABState extends State<_AnimatedFAB>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.9,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onTapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    _controller.reverse();
+    widget.onPressed?.call();
+  }
+
+  void _onTapCancel() {
+    _controller.reverse();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accentColor = widget.accentColor ?? (isDark ? AppColors.emerald : AppColors.primaryMid);
+
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: accentColor.withValues(alpha: 0.4),
+            blurRadius: 20,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onTapDown: _onTapDown,
+        onTapUp: _onTapUp,
+        onTapCancel: _onTapCancel,
+        child: AnimatedBuilder(
+          animation: _scaleAnimation,
+          builder: (context, child) {
+            return Transform.scale(
+              scale: _scaleAnimation.value,
+              child: child,
+            );
+          },
+          child: FloatingActionButton(
+            onPressed: null,
+            elevation: 0,
+            backgroundColor: accentColor,
+            tooltip: 'Tambah Transaksi',
+            child: const Icon(Icons.add_rounded, size: 28, color: Colors.white),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // ==================== HOME PAGE ====================
 class HomePage extends ConsumerStatefulWidget {
   final String? quickAddType;
@@ -164,6 +260,10 @@ class _HomePageState extends ConsumerState<HomePage>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      transitionAnimationController: AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 300),
+      ),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -278,24 +378,9 @@ class _HomePageState extends ConsumerState<HomePage>
           ),
         ],
       ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: (isDark ? AppColors.emerald : AppColors.primaryMid)
-                  .withValues(alpha: 0.4),
-              blurRadius: 20,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: FloatingActionButton(
-          onPressed: _showTambahTransaksi,
-          elevation: 0,
-          tooltip: 'Tambah Transaksi',
-          child: const Icon(Icons.add_rounded, size: 28),
-        ),
+      floatingActionButton: _AnimatedFAB(
+        onPressed: _showTambahTransaksi,
+        accentColor: isDark ? AppColors.emerald : AppColors.primaryMid,
       ),
     );
   }

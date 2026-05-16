@@ -4,6 +4,7 @@ import '../../models/models.dart';
 import '../../data/database_helper.dart';
 import '../../services/pdf_laporan_service.dart';
 import '../../services/export_service.dart';
+import '../../services/excel_export_service.dart';
 
 class LaporanSheet extends StatefulWidget {
   const LaporanSheet({super.key});
@@ -18,7 +19,8 @@ class _LaporanSheetState extends State<LaporanSheet> {
   int? _selectedDompetId;
   List<Dompet> _dompetList = [];
   bool _isGenerating = false;
-  bool _isCsvMode = false; // false = PDF, true = CSV
+  // exportMode: 'pdf' | 'csv' | 'excel'
+  String _exportMode = 'pdf';
 
   @override
   void initState() {
@@ -46,13 +48,28 @@ class _LaporanSheetState extends State<LaporanSheet> {
     return DateFormat('MMMM', 'id_ID').format(DateTime(2024, month));
   }
 
+  String _getPreviewLabel(String periodePreview) {
+    if (_exportMode == 'csv') return 'Export CSV — $periodePreview';
+    if (_exportMode == 'excel') return 'Export Excel — $periodePreview';
+    return 'Laporan $periodePreview';
+  }
+
+  String _getLoadingMessage() {
+    if (_exportMode == 'csv') return 'Sedang export CSV...';
+    if (_exportMode == 'excel') return 'Sedang export Excel...';
+    return 'Sedang membuat PDF...';
+  }
+
   Future<void> _generate({required bool share}) async {
     setState(() => _isGenerating = true);
 
     try {
-      if (_isCsvMode) {
+      if (_exportMode == 'csv') {
         // CSV export
         await _exportCsv(share: share);
+      } else if (_exportMode == 'excel') {
+        // Excel export
+        await _exportExcel(share: share);
       } else {
         // PDF export
         if (share) {
@@ -74,7 +91,7 @@ class _LaporanSheetState extends State<LaporanSheet> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              _isCsvMode ? 'Gagal export CSV: $e' : 'Gagal membuat PDF: $e',
+              _getErrorMessage(e),
             ),
             backgroundColor: Colors.red,
           ),
@@ -87,6 +104,12 @@ class _LaporanSheetState extends State<LaporanSheet> {
     }
   }
 
+  String _getErrorMessage(dynamic e) {
+    if (_exportMode == 'csv') return 'Gagal export CSV: $e';
+    if (_exportMode == 'excel') return 'Gagal export Excel: $e';
+    return 'Gagal membuat PDF: $e';
+  }
+
   Future<void> _exportCsv({required bool share}) async {
     final csv = await ExportService.instance.exportTransactionsToCsvFiltered(
       bulan: _selectedMonth,
@@ -96,6 +119,18 @@ class _LaporanSheetState extends State<LaporanSheet> {
     final result = share
         ? await ExportService.instance.shareCsvFile(csv)
         : await ExportService.instance.shareCsvFile(csv);
+
+    if (result == null && mounted) {
+      throw Exception('Export gagal');
+    }
+  }
+
+  Future<void> _exportExcel({required bool share}) async {
+    final result = await ExcelExportService.instance.exportAndShareTransactionsExcel(
+      bulan: _selectedMonth,
+      tahun: _selectedYear,
+      idDompet: _selectedDompetId,
+    );
 
     if (result == null && mounted) {
       throw Exception('Export gagal');
@@ -156,15 +191,17 @@ class _LaporanSheetState extends State<LaporanSheet> {
               child: Column(
                 children: [
                   Icon(
-                    _isCsvMode ? Icons.table_chart : Icons.description,
+                    _exportMode == 'pdf'
+                        ? Icons.description
+                        : _exportMode == 'csv'
+                            ? Icons.table_chart
+                            : Icons.grid_on,
                     size: 32,
                     color: Colors.green.shade600,
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    _isCsvMode
-                        ? 'Export CSV — $periodePreview'
-                        : 'Laporan $periodePreview',
+                    _getPreviewLabel(periodePreview),
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -200,22 +237,27 @@ class _LaporanSheetState extends State<LaporanSheet> {
                   style: TextStyle(fontWeight: FontWeight.w500),
                 ),
                 const Spacer(),
-                SegmentedButton<bool>(
+                SegmentedButton<String>(
                   segments: const [
                     ButtonSegment(
-                      value: false,
+                      value: 'pdf',
                       label: Text('PDF'),
                       icon: Icon(Icons.picture_as_pdf, size: 16),
                     ),
                     ButtonSegment(
-                      value: true,
+                      value: 'csv',
                       label: Text('CSV'),
                       icon: Icon(Icons.table_chart, size: 16),
                     ),
+                    ButtonSegment(
+                      value: 'excel',
+                      label: Text('Excel'),
+                      icon: Icon(Icons.grid_on, size: 16),
+                    ),
                   ],
-                  selected: {_isCsvMode},
+                  selected: {_exportMode},
                   onSelectionChanged: (selection) {
-                    setState(() => _isCsvMode = selection.first);
+                    setState(() => _exportMode = selection.first);
                   },
                   showSelectedIcon: false,
                 ),
@@ -314,21 +356,31 @@ class _LaporanSheetState extends State<LaporanSheet> {
                   children: [
                     const CircularProgressIndicator(),
                     const SizedBox(height: 8),
-                    Text(
-                      _isCsvMode
-                          ? 'Sedang export CSV...'
-                          : 'Sedang membuat PDF...',
-                    ),
+                    Text(_getLoadingMessage()),
                   ],
                 ),
               )
-            else if (_isCsvMode)
+            else if (_exportMode == 'csv')
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () => _generate(share: true),
                   icon: const Icon(Icons.share),
                   label: const Text('Export & Bagikan CSV'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.all(14),
+                  ),
+                ),
+              )
+            else if (_exportMode == 'excel')
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => _generate(share: true),
+                  icon: const Icon(Icons.share),
+                  label: const Text('Export & Bagikan Excel'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,

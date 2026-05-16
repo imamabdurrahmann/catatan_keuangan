@@ -626,6 +626,55 @@ final userLevelProvider = FutureProvider<UserLevel>((ref) async {
   }
 });
 
+// ==================== COMPUTED PROFIL ====================
+
+/// Computed provider for active profil ID.
+/// Watches activeProfilProvider and returns the value directly.
+final computedActiveProfilIdProvider = Provider<int>((ref) {
+  return ref.watch(activeProfilProvider);
+});
+
+/// Computed provider for whether dark mode is enabled.
+/// Uses select() to only rebuild when isDarkMode changes.
+final isDarkModeProvider = Provider<bool>((ref) {
+  return ref.watch(pengaturanProvider.select((p) => p.isDarkMode));
+});
+
+// ==================== COMPUTED TRANSAKSI ====================
+
+/// Computed provider for total transaction count.
+final computedTotalTransaksiCountProvider = FutureProvider<int>((ref) async {
+  ref.watch(updateSignalsProvider.select((s) => s['transaksi']));
+  return await DatabaseHelper.instance.transaksiDao.getTotalTransaksiCount();
+});
+
+/// Computed provider for whether there are any transactions.
+final hasTransactionsProvider = FutureProvider<bool>((ref) async {
+  final count = await ref.watch(computedTotalTransaksiCountProvider.future);
+  return count > 0;
+});
+
+// ==================== COMPUTED DOMPET ====================
+
+/// Computed provider for total saldo across all dompet of active profil.
+/// Uses select() to minimize rebuilds.
+final computedTotalSaldoProvider = FutureProvider<double>((ref) async {
+  ref.watch(updateSignalsProvider.select((s) => s['dompet']));
+  ref.watch(activeProfilProvider);
+  final dompets = await DatabaseHelper.instance.getAllDompet(
+    profilId: ref.watch(activeProfilProvider),
+  );
+  return dompets.fold<double>(0, (sum, d) => sum + d.saldo);
+});
+
+/// Computed provider for dompet by ID.
+/// Returns null if not found.
+final dompetByIdProvider = FutureProvider.family<Dompet?, int>((ref, id) async {
+  ref.watch(updateSignalsProvider.select((s) => s['dompet']));
+  final dompets = await DatabaseHelper.instance.getAllDompet();
+  return dompets.where((d) => d.id == id).firstOrNull;
+});
+
 // ==================== SMART RECEIPT (GAMIFIKASI) ====================
 
 /// Returns transaksi list for a given year/month where lampiran is not empty.

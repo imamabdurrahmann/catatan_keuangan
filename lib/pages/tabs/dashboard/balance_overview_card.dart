@@ -169,45 +169,56 @@ class _AnimatedBalanceState extends ConsumerState<_AnimatedBalance> {
   }
 
   Widget _buildContent(double saldo, int count, bool isLoading) {
+    // Format currency for screen reader
+    final formattedSaldo = 'Rp ${formatRupiahCompact(saldo)}';
+    final formattedCount = '$count dompet aktif';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Rp ${formatRupiahCompact(saldo)}',
-                  style: const TextStyle(
-                    fontFamily: 'PlusJakartaSans',
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                    letterSpacing: -1.5,
+        Semantics(
+          label: 'Total saldo: $formattedSaldo',
+          child: Row(
+            children: [
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    formattedSaldo,
+                    style: const TextStyle(
+                      fontFamily: 'PlusJakartaSans',
+                      fontSize: 32,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                      letterSpacing: -1.5,
+                    ),
                   ),
                 ),
               ),
-            ),
-            if (isLoading)
-              const SizedBox(
-                width: 16,
-                height: 16,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation(Colors.white70),
+              if (isLoading)
+                const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation(Colors.white70),
+                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
         const SizedBox(height: 4),
-        Text(
-          '$count dompet aktif',
-          style: TextStyle(
-            fontFamily: 'PlusJakartaSans',
-            fontSize: 11,
-            color: Colors.white.withValues(alpha: 0.6),
+        Semantics(
+          label: 'Informasi saldo: $formattedCount',
+          excludeSemantics: true,
+          child: Text(
+            formattedCount,
+            style: TextStyle(
+              fontFamily: 'PlusJakartaSans',
+              fontSize: 11,
+              color: Colors.white.withValues(alpha: 0.6),
+            ),
           ),
         ),
       ],

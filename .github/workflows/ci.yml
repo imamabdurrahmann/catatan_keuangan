@@ -31,4 +31,72 @@ jobs:
           cache: true
           pub-cache: true
       - run: flutter pub get
-      - run: flutter test --no-pub
+      - run: flutter test --no-pub --coverage
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage
+          path: coverage/
+          retention-days: 7
+
+  golden-tests:
+    name: Golden Tests (Light & Dark Mode)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.19.0
+          cache: true
+          pub-cache: true
+      - run: flutter pub get
+      - name: Run Golden Tests - Light Mode
+        run: flutter test test/golden/balance_card_test.dart --no-pub
+      - name: Run Golden Tests - Transaksi Card
+        run: flutter test test/golden/transaksi_card_test.dart --no-pub
+      - name: Run Golden Tests - Kategori Chip
+        run: flutter test test/golden/kategori_chip_test.dart --no-pub
+      - name: Run Golden Tests - Dashboard Section
+        run: flutter test test/golden/dashboard_section_test.dart --no-pub
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.19.0
+          cache: true
+          pub-cache: true
+      - run: flutter pub get
+      - name: Run Transaction Flow Tests
+        run: flutter test test/integration/transaction_flow_test.dart --no-pub
+      - name: Run Export Flow Tests
+        run: flutter test test/integration/export_flow_test.dart --no-pub
+      - name: Run Profile Switch Tests
+        run: flutter test test/integration/profile_switch_test.dart --no-pub
+
+  coverage-report:
+    name: Coverage Report
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+      - name: Check Coverage
+        run: |
+          if [ -f coverage/lcov.info ]; then
+            echo "Coverage report generated"
+            # Count total lines covered
+            lines=$(grep -c "SF:" coverage/lcov.info || echo "0")
+            echo "Source files with coverage: $lines"
+          else
+            echo "No coverage report found"
+            exit 1
+          fi

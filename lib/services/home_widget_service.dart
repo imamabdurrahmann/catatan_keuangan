@@ -7,9 +7,26 @@ import 'package:home_widget/home_widget.dart'
 
 /// Service for managing the Android home screen widget.
 /// All methods are no-ops on desktop platforms.
+///
+/// Optimizations:
+/// - Throttles update calls to prevent excessive widget refreshes
+/// - Batches data saves before triggering widget update
+/// - Uses debouncing to avoid rapid consecutive updates
 class HomeWidgetService {
   static const _appGroupId = 'catatan_keuangan_widget';
   static const _androidWidgetName = 'CatatanKeuanganWidget';
+
+  /// Throttle duration in milliseconds
+  static const _throttleDuration = 1000;
+
+  /// Last update timestamp
+  static DateTime? _lastUpdate;
+
+  /// Cached values to avoid redundant saves
+  static String? _cachedSaldo;
+  static String? _cachedPemasukan;
+  static String? _cachedPengeluaran;
+  static List<double>? _cachedDailyTotals;
 
   /// Initializes the home widget.
   static Future<void> initialize() async {
@@ -18,22 +35,52 @@ class HomeWidgetService {
     await HomeWidget.setAppGroupId(_appGroupId);
   }
 
+  /// Checks if an update should be throttled
+  static bool _shouldThrottle() {
+    final now = DateTime.now();
+    if (_lastUpdate != null) {
+      final elapsed = now.difference(_lastUpdate!).inMilliseconds;
+      if (elapsed < _throttleDuration) {
+        return true;
+      }
+    }
+    _lastUpdate = now;
+    return false;
+  }
+
   /// Updates the widget with current balance data.
+  /// Automatically throttles to prevent excessive updates.
   static Future<void> updateWidget({
     required double totalSaldo,
     required double totalPemasukan,
     required double totalPengeluaran,
   }) async {
     if (!PlatformUtils.isMobile) return;
-    await HomeWidget.saveWidgetData('saldo', 'Rp ${_formatNumber(totalSaldo)}');
-    await HomeWidget.saveWidgetData(
-      'pemasukan',
-      '+ Rp ${_formatNumber(totalPemasukan)}',
-    );
-    await HomeWidget.saveWidgetData(
-      'pengeluaran',
-      '- Rp ${_formatNumber(totalPengeluaran)}',
-    );
+
+    // Check if values actually changed
+    final newSaldo = 'Rp ${_formatNumber(totalSaldo)}';
+    final newPemasukan = '+ Rp ${_formatNumber(totalPemasukan)}';
+    final newPengeluaran = '- Rp ${_formatNumber(totalPengeluaran)}';
+
+    if (newSaldo == _cachedSaldo &&
+        newPemasukan == _cachedPemasukan &&
+        newPengeluaran == _cachedPengeluaran) {
+      return; // No change, skip update
+    }
+
+    // Cache the values
+    _cachedSaldo = newSaldo;
+    _cachedPemasukan = newPemasukan;
+    _cachedPengeluaran = newPengeluaran;
+
+    // Check throttle
+    if (_shouldThrottle()) {
+      return;
+    }
+
+    await HomeWidget.saveWidgetData('saldo', newSaldo);
+    await HomeWidget.saveWidgetData('pemasukan', newPemasukan);
+    await HomeWidget.saveWidgetData('pengeluaran', newPengeluaran);
     await HomeWidget.saveWidgetData('tanggal', _formatTanggal(DateTime.now()));
     await HomeWidget.updateWidget(androidName: _androidWidgetName);
   }
@@ -41,6 +88,12 @@ class HomeWidgetService {
   /// Clears widget data (shown when no data available).
   static Future<void> clearWidget() async {
     if (!PlatformUtils.isMobile) return;
+
+    _cachedSaldo = null;
+    _cachedPemasukan = null;
+    _cachedPengeluaran = null;
+    _cachedDailyTotals = null;
+
     await HomeWidget.saveWidgetData('saldo', 'Rp 0');
     await HomeWidget.saveWidgetData('pemasukan', '+ Rp 0');
     await HomeWidget.saveWidgetData('pengeluaran', '- Rp 0');
@@ -49,13 +102,31 @@ class HomeWidgetService {
   }
 
   /// Saves weekly chart data for the widget.
+  /// Only updates if data has changed.
   static Future<void> saveWeeklyChartData(List<double> dailyTotals) async {
     if (!PlatformUtils.isMobile) return;
+
+    // Check if data changed
+    if (_cachedDailyTotals != null &&
+        _cachedDailyTotals!.length == dailyTotals.length) {
+      bool changed = false;
+      for (var i = 0; i < dailyTotals.length; i++) {
+        if ((_cachedDailyTotals![i] - dailyTotals[i]).abs() > 0.01) {
+          changed = true;
+          break;
+        }
+      }
+      if (!changed) return;
+    }
+
+    _cachedDailyTotals = List.from(dailyTotals);
+
     final padded = List<double>.from(dailyTotals);
     while (padded.length < 7) {
       padded.add(0);
     }
 
+    // Batch all saves then single update
     await HomeWidget.saveWidgetData('chart_day1', padded[0].toStringAsFixed(0));
     await HomeWidget.saveWidgetData('chart_day2', padded[1].toStringAsFixed(0));
     await HomeWidget.saveWidgetData('chart_day3', padded[2].toStringAsFixed(0));
@@ -83,7 +154,7 @@ class HomeWidgetService {
   }
 
   static String _formatTanggal(DateTime dt) {
-    final bulan = [
+    const bulan = [
       'Jan',
       'Feb',
       'Mar',
@@ -98,5 +169,14 @@ class HomeWidgetService {
       'Des',
     ];
     return '${dt.day} ${bulan[dt.month - 1]} ${dt.year}';
+  }
+
+  /// Clears all cached values (call on logout or data reset)
+  static void clearCache() {
+    _cachedSaldo = null;
+    _cachedPemasukan = null;
+    _cachedPengeluaran = null;
+    _cachedDailyTotals = null;
+    _lastUpdate = null;
   }
 }

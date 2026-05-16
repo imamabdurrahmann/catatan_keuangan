@@ -40,6 +40,7 @@ dependencies:
   # UI & Animations
   fl_chart: ^0.70.0
   lottie: ^3.1.2
+  shimmer: ^3.0.0
 
   # Database
   sqflite: ^2.4.2
@@ -55,6 +56,9 @@ dependencies:
   printing: ^5.12.0
   path_provider: ^2.1.2
   share_plus: ^12.0.2
+
+  # Excel Generation
+  excel: ^4.0.3
 
   # File & Image Handling
   image_picker: ^1.1.2
@@ -103,6 +107,8 @@ dev_dependencies:
 
   # Testing
   mocktail: ^1.0.4
+  integration_test:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
