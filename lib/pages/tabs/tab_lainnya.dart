@@ -343,7 +343,7 @@ class _TabLainnyaState extends ConsumerState<TabLainnya>
           context.push('/statistik?tahun=$tahun&bulan=$bulan');
         },
       ),
-      ('Laporan PDF', Icons.picture_as_pdf_rounded, showLaporan),
+      ('Export Laporan', Icons.file_download_rounded, showLaporan),
       ('Transaksi Berulang', Icons.repeat_rounded, showRecurring),
       (
         'Utang & Piutang',

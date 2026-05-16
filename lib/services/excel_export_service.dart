@@ -28,12 +28,6 @@ class ExcelExportService {
   CellStyle _createHeaderStyle() {
     return CellStyle(
       bold: true,
-      backgroundColor: ExcelColor(
-        r: 0x1B, g: 0x5E, b: 0x20, a: 0xFF,
-      ),
-      fontColor: ExcelColor(
-        r: 0xFF, g: 0xFF, b: 0xFF, a: 0xFF,
-      ),
       horizontalAlign: HorizontalAlign.Center,
       verticalAlign: VerticalAlign.Center,
       fontSize: 12,
@@ -42,18 +36,13 @@ class ExcelExportService {
 
   /// Creates an alternate row style with light green background.
   CellStyle _createAlternateRowStyle() {
-    return CellStyle(
-      backgroundColor: ExcelColor(
-        r: 0xE8, g: 0xF5, b: 0xE9, a: 0xFF,
-      ),
-    );
+    return CellStyle();
   }
 
   /// Creates a currency cell style.
   CellStyle _createCurrencyStyle({bool isBold = false}) {
     return CellStyle(
       horizontalAlign: HorizontalAlign.Right,
-      numberFormat: NumFormat.standard_0,
       fontSize: 11,
       bold: isBold,
     );
@@ -63,12 +52,6 @@ class ExcelExportService {
   CellStyle _createSectionTitleStyle() {
     return CellStyle(
       bold: true,
-      backgroundColor: ExcelColor(
-        r: 0x4C, g: 0xAF, b: 0x50, a: 0xFF,
-      ),
-      fontColor: ExcelColor(
-        r: 0xFF, g: 0xFF, b: 0xFF, a: 0xFF,
-      ),
       fontSize: 14,
     );
   }

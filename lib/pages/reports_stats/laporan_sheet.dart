@@ -163,7 +163,7 @@ class _LaporanSheetState extends State<LaporanSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Cetak Laporan PDF',
+                  'Export Laporan',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
