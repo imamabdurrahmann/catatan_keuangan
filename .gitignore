@@ -24,6 +24,12 @@ migrate_working_dir/
 # Claude Code (internal files)
 .claude/
 
+# Superpowers (internal development)
+.superpowers/
+.last_verify
+machine.json
+skills-lock.json
+
 # Flutter/Dart/Pub related
 **/doc/api/
 **/ios/Flutter/.last_build_id
