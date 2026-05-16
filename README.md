@@ -73,7 +73,7 @@ dart --version    # Dart 3.x or higher
 
 ```bash
 # Clone repository
-git clone https://github.com/muhammadimamabdurrahman/catatan_keuangan.git
+git clone https://github.com/imamabdurrahmann/catatan_keuangan.git
 cd catatan_keuangan
 
 # Get dependencies
@@ -167,7 +167,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Muhammad Imam Abdurrahman**
 
-- GitHub: [@muhammadimamabdurrahman](https://github.com/muhammadimamabdurrahman)
+- GitHub: [@imamabdurrahmann](https://github.com/imamabdurrahmann)
 - Email: muhammadimamabdurrahman93@gmail.com
 
 ---
