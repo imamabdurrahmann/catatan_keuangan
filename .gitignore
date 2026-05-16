@@ -18,10 +18,11 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# VS Code
+.vscode/
+
+# Claude Code (internal files)
+.claude/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -48,3 +49,55 @@ app.*.map.json
 **/local.properties
 *.jks
 *.keystore
+
+# Node modules
+node_modules/
+
+# Python scripts (dev utilities)
+*.py
+__pycache__/
+*.egg-info/
+requirements.txt
+package-lock.json
+
+# Generated/Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+*.backup_*/
+
+# Documentation (keep only in project, not in git)
+*.docx
+*.pdf
+*.pptx
+slides/
+slides-en/
+
+# Build artifacts
+innosetup_installer.exe
+*.exe
+*.apk
+*.aab
+*.ipa
+
+# Analysis/Log files
+analyze*.txt
+scan_results.txt
+final_scan.json
+format_out.txt
+nonascii_check.txt
+build_log.txt
+analyze_out.txt
+analyze_tmp*.txt
+
+# Configuration (local machine specific)
+machine.json
+skills-lock.json
+.last_verify
+l10n.yaml
+
+# Image assets that shouldn't be in git (large binaries)
+# logo.png (KEEP THIS - it's used by the app)
+# logo_backup.png
