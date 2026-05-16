@@ -1,0 +1,11 @@
+﻿Analyzing catatan_keuangan...
+
+warning - lib\pages\achievement_page.dart:5:8 - Unused import: 'ui_utils.dart'. Try removing the import directive. - unused_import
+warning - lib\pages\utang_piutang_page.dart:8:8 - Unused import: 'ui_utils.dart'. Try removing the import directive. - unused_import
+   info - lib\pages\backup_page.dart:33:7 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - lib\pages\settings_page.dart:348:11 - Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?'. - use_null_aware_elements
+   info - lib\pages\tabs\tab_bulanan.dart:414:7 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - lib\pages\utang_piutang_page.dart:489:11 - Statements in an if should be enclosed in a block. Try wrapping the statement in a block. - curly_braces_in_flow_control_structures
+   info - lib\services\ocr_service.dart:27:7 - Don't invoke 'print' in production code. Try using a logging framework. - avoid_print
+
+7 issues found.

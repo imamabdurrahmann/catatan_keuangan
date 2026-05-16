@@ -1,0 +1,856 @@
+{
+  "@@locale": "en",
+  "homeTabToday": "Today",
+  "@homeTabToday": {
+    "description": "Tab label for today view",
+    "type": "String"
+  },
+  "homeTabByDate": "By Date",
+  "@homeTabByDate": {
+    "description": "Tab label for date-based view",
+    "type": "String"
+  },
+  "homeTabMonthly": "Monthly",
+  "@homeTabMonthly": {
+    "description": "Tab label for monthly view",
+    "type": "String"
+  },
+  "homeTabOther": "Other",
+  "@homeTabOther": {
+    "description": "Tab label for other/miscellaneous view",
+    "type": "String"
+  },
+  "homeTabDashboard": "Dashboard",
+  "@homeTabDashboard": {
+    "description": "Tab label for dashboard view",
+    "type": "String"
+  },
+  "settingsTitle": "Settings",
+  "@settingsTitle": {
+    "description": "Settings page title",
+    "type": "String"
+  },
+  "statisticsTitle": "Statistics",
+  "@statisticsTitle": {
+    "description": "Statistics page title",
+    "type": "String"
+  },
+  "backupRestoreTitle": "Backup & Restore",
+  "@backupRestoreTitle": {
+    "description": "Backup and restore page title",
+    "type": "String"
+  },
+  "debtTitle": "Debt & Receivables",
+  "@debtTitle": {
+    "description": "Debt and receivable page title",
+    "type": "String"
+  },
+  "savingsTitle": "Savings Goals",
+  "@savingsTitle": {
+    "description": "Savings goals page title",
+    "type": "String"
+  },
+  "menuTitle": "Menu",
+  "@menuTitle": {
+    "description": "Menu title",
+    "type": "String"
+  },
+  "lightMode": "Light Mode",
+  "@lightMode": {
+    "description": "Light theme option label",
+    "type": "String"
+  },
+  "darkMode": "Dark Mode",
+  "@darkMode": {
+    "description": "Dark theme option label",
+    "type": "String"
+  },
+  "searchTransaction": "Search Transaction",
+  "@searchTransaction": {
+    "description": "Search transaction placeholder",
+    "type": "String"
+  },
+  "addTransaction": "Add Transaction",
+  "@addTransaction": {
+    "description": "Add transaction button label",
+    "type": "String"
+  },
+  "scanReceipt": "Scan Receipt (A.I)",
+  "@scanReceipt": {
+    "description": "Scan receipt button label",
+    "type": "String"
+  },
+  "recurringTransaction": "Recurring Transaction",
+  "@recurringTransaction": {
+    "description": "Recurring transaction label",
+    "type": "String"
+  },
+  "saveTransaction": "SAVE TRANSACTION",
+  "@saveTransaction": {
+    "description": "Save transaction button label",
+    "type": "String"
+  },
+  "savingTransaction": "Saving...",
+  "@savingTransaction": {
+    "description": "Saving transaction loading text",
+    "type": "String"
+  },
+  "newExport": "New Export",
+  "@newExport": {
+    "description": "New export button label",
+    "type": "String"
+  },
+  "restoreFromFile": "Restore from File",
+  "@restoreFromFile": {
+    "description": "Restore from file button label",
+    "type": "String"
+  },
+  "trash": "Trash",
+  "@trash": {
+    "description": "Trash page title",
+    "type": "String"
+  },
+  "manageWallet": "Manage Wallet",
+  "@manageWallet": {
+    "description": "Manage wallet label",
+    "type": "String"
+  },
+  "setBudget": "Set Budget",
+  "@setBudget": {
+    "description": "Set budget label",
+    "type": "String"
+  },
+  "manageCategory": "Manage Category",
+  "@manageCategory": {
+    "description": "Manage category label",
+    "type": "String"
+  },
+  "backupRestore": "Backup & Restore",
+  "@backupRestore": {
+    "description": "Backup and restore menu label",
+    "type": "String"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings menu label",
+    "type": "String"
+  },
+  "amount": "Amount",
+  "@amount": {
+    "description": "Amount field label",
+    "type": "String"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Description field label",
+    "type": "String"
+  },
+  "category": "Category",
+  "@category": {
+    "description": "Category field label",
+    "type": "String"
+  },
+  "attachment": "Attachment",
+  "@attachment": {
+    "description": "Attachment field label",
+    "type": "String"
+  },
+  "walletName": "Wallet Name",
+  "@walletName": {
+    "description": "Wallet name field label",
+    "type": "String"
+  },
+  "newWallet": "New wallet",
+  "@newWallet": {
+    "description": "New wallet label",
+    "type": "String"
+  },
+  "walletBalance": "Balance",
+  "@walletBalance": {
+    "description": "Wallet balance label",
+    "type": "String"
+  },
+  "categoryName": "Category Name",
+  "@categoryName": {
+    "description": "Category name field label",
+    "type": "String"
+  },
+  "newCategory": "New category",
+  "@newCategory": {
+    "description": "New category label",
+    "type": "String"
+  },
+  "expenseCategory": "Expense",
+  "@expenseCategory": {
+    "description": "Expense category type label",
+    "type": "String"
+  },
+  "incomeCategory": "Income",
+  "@incomeCategory": {
+    "description": "Income category type label",
+    "type": "String"
+  },
+  "defaultCategory": "Default",
+  "@defaultCategory": {
+    "description": "Default category label",
+    "type": "String"
+  },
+  "borrowerLenderName": "Borrower / Lender Name",
+  "@borrowerLenderName": {
+    "description": "Borrower or lender name field label",
+    "type": "String"
+  },
+  "totalAmount": "Total Amount",
+  "@totalAmount": {
+    "description": "Total amount field label",
+    "type": "String"
+  },
+  "dueDateOptional": "Set Due Date (Optional)",
+  "@dueDateOptional": {
+    "description": "Due date optional field label",
+    "type": "String"
+  },
+  "notesOptional": "Notes (Optional)",
+  "@notesOptional": {
+    "description": "Notes optional field label",
+    "type": "String"
+  },
+  "savingsAmount": "Savings Amount (Rp)",
+  "@savingsAmount": {
+    "description": "Savings amount field label",
+    "type": "String"
+  },
+  "savingsGoalName": "Item/Goal Name (Ex: Laptop)",
+  "@savingsGoalName": {
+    "description": "Savings goal name field label",
+    "type": "String"
+  },
+  "targetAmount": "Target Amount",
+  "@targetAmount": {
+    "description": "Target amount field label",
+    "type": "String"
+  },
+  "targetDateOptional": "Set Target Date (Optional)",
+  "@targetDateOptional": {
+    "description": "Target date optional field label",
+    "type": "String"
+  },
+  "budgetAmount": "Budget Amount",
+  "@budgetAmount": {
+    "description": "Budget amount field label",
+    "type": "String"
+  },
+  "deleteWallet": "Delete Wallet",
+  "@deleteWallet": {
+    "description": "Delete wallet action label",
+    "type": "String"
+  },
+  "deleteCategory": "Delete Category",
+  "@deleteCategory": {
+    "description": "Delete category action label",
+    "type": "String"
+  },
+  "deletePermanently": "Delete Permanently",
+  "@deletePermanently": {
+    "description": "Delete permanently action label",
+    "type": "String"
+  },
+  "deleteData": "Delete Data",
+  "@deleteData": {
+    "description": "Delete data action label",
+    "type": "String"
+  },
+  "deleteTarget": "Delete Target",
+  "@deleteTarget": {
+    "description": "Delete target action label",
+    "type": "String"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label",
+    "type": "String"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button label",
+    "type": "String"
+  },
+  "savePin": "Save PIN",
+  "@savePin": {
+    "description": "Save PIN button label",
+    "type": "String"
+  },
+  "saveTarget": "Save Target",
+  "@saveTarget": {
+    "description": "Save target button label",
+    "type": "String"
+  },
+  "confirmDelete": "Confirm Delete",
+  "@confirmDelete": {
+    "description": "Confirm delete button label",
+    "type": "String"
+  },
+  "chooseFile": "Choose File",
+  "@chooseFile": {
+    "description": "Choose file button label",
+    "type": "String"
+  },
+  "restore": "Restore",
+  "@restore": {
+    "description": "Restore button label",
+    "type": "String"
+  },
+  "decrypt": "Decrypt",
+  "@decrypt": {
+    "description": "Decrypt button label",
+    "type": "String"
+  },
+  "export": "Export",
+  "@export": {
+    "description": "Export button label",
+    "type": "String"
+  },
+  "share": "Share",
+  "@share": {
+    "description": "Share button label",
+    "type": "String"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button label",
+    "type": "String"
+  },
+  "deleteBackup": "Delete Backup",
+  "@deleteBackup": {
+    "description": "Delete backup action label",
+    "type": "String"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button label",
+    "type": "String"
+  },
+  "iOwe": "I Owe (Debt)",
+  "@iOwe": {
+    "description": "I owe (debt) label",
+    "type": "String"
+  },
+  "theyOwe": "They Owe (Receivable)",
+  "@theyOwe": {
+    "description": "They owe (receivable) label",
+    "type": "String"
+  },
+  "payDebt": "Pay Debt",
+  "@payDebt": {
+    "description": "Pay debt action label",
+    "type": "String"
+  },
+  "receiveInstallment": "Receive Installment",
+  "@receiveInstallment": {
+    "description": "Receive installment action label",
+    "type": "String"
+  },
+  "paymentHistory": "Payment History",
+  "@paymentHistory": {
+    "description": "Payment history label",
+    "type": "String"
+  },
+  "createTarget": "Create Target",
+  "@createTarget": {
+    "description": "Create target button label",
+    "type": "String"
+  },
+  "newTarget": "New Target",
+  "@newTarget": {
+    "description": "New target label",
+    "type": "String"
+  },
+  "saveSavings": "Save",
+  "@saveSavings": {
+    "description": "Save savings button label",
+    "type": "String"
+  },
+  "createPin": "Create PIN",
+  "@createPin": {
+    "description": "Create PIN button label",
+    "type": "String"
+  },
+  "confirmPin": "Confirm PIN",
+  "@confirmPin": {
+    "description": "Confirm PIN label",
+    "type": "String"
+  },
+  "enterPin": "Enter PIN",
+  "@enterPin": {
+    "description": "Enter PIN label",
+    "type": "String"
+  },
+  "pinMin4Digits": "PIN must be at least 4 digits",
+  "@pinMin4Digits": {
+    "description": "PIN minimum 4 digits validation message",
+    "type": "String"
+  },
+  "pinNotMatch": "PIN does not match",
+  "@pinNotMatch": {
+    "description": "PIN does not match error message",
+    "type": "String"
+  },
+  "wrongPin": "Wrong PIN",
+  "@wrongPin": {
+    "description": "Wrong PIN error message",
+    "type": "String"
+  },
+  "verifyFingerprint": "Verify fingerprint to open app",
+  "@verifyFingerprint": {
+    "description": "Verify fingerprint instruction message",
+    "type": "String"
+  },
+  "useFingerprint": "Use Fingerprint",
+  "@useFingerprint": {
+    "description": "Use fingerprint button label",
+    "type": "String"
+  },
+  "enableFingerprint": "Enable fingerprint",
+  "@enableFingerprint": {
+    "description": "Enable fingerprint label",
+    "type": "String"
+  },
+  "openWithFingerprint": "Open with fingerprint",
+  "@openWithFingerprint": {
+    "description": "Open with fingerprint label",
+    "type": "String"
+  },
+  "enterSamePin": "Enter the same PIN to confirm",
+  "@enterSamePin": {
+    "description": "Enter same PIN for confirmation instruction",
+    "type": "String"
+  },
+  "open": "Open",
+  "@open": {
+    "description": "Open button label",
+    "type": "String"
+  },
+  "exportData": "Export Data",
+  "@exportData": {
+    "description": "Export data label",
+    "type": "String"
+  },
+  "protectBackupPassword": "Protect backup with password?",
+  "@protectBackupPassword": {
+    "description": "Protect backup with password prompt",
+    "type": "String"
+  },
+  "usePassword": "Use password",
+  "@usePassword": {
+    "description": "Use password label",
+    "type": "String"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field label",
+    "type": "String"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password field label",
+    "type": "String"
+  },
+  "repeatPassword": "Repeat password",
+  "@repeatPassword": {
+    "description": "Repeat password field label",
+    "type": "String"
+  },
+  "passwordEmpty": "Password cannot be empty",
+  "@passwordEmpty": {
+    "description": "Password empty validation message",
+    "type": "String"
+  },
+  "passwordNotMatch": "Passwords do not match",
+  "@passwordNotMatch": {
+    "description": "Password does not match error message",
+    "type": "String"
+  },
+  "wrongPasswordCorrupt": "Wrong password or file is corrupted",
+  "@wrongPasswordCorrupt": {
+    "description": "Wrong password or corrupt file error message",
+    "type": "String"
+  },
+  "exportSuccess": "Export Successful",
+  "@exportSuccess": {
+    "description": "Export success message",
+    "type": "String"
+  },
+  "encryptedFile": "(AES-256 encrypted file)",
+  "@encryptedFile": {
+    "description": "Encrypted file note",
+    "type": "String"
+  },
+  "restoreData": "Restore Data",
+  "@restoreData": {
+    "description": "Restore data label",
+    "type": "String"
+  },
+  "restoreWillReplace": "This will REPLACE all current data with data from the backup file. Continue?",
+  "@restoreWillReplace": {
+    "description": "Restore will replace all data warning message",
+    "type": "String"
+  },
+  "restoreBackup": "Restore Backup",
+  "@restoreBackup": {
+    "description": "Restore backup button label",
+    "type": "String"
+  },
+  "fileEncrypted": "File Encrypted",
+  "@fileEncrypted": {
+    "description": "File encrypted label",
+    "type": "String"
+  },
+  "enterPasswordBackup": "Enter password to open backup file.",
+  "@enterPasswordBackup": {
+    "description": "Enter password to open backup file instruction",
+    "type": "String"
+  },
+  "restoringData": "Restoring data...",
+  "@restoringData": {
+    "description": "Restoring data loading message",
+    "type": "String"
+  },
+  "restoreSuccess": "Data restored successfully",
+  "@restoreSuccess": {
+    "description": "Restore success message",
+    "type": "String"
+  },
+  "backupFilename": "DompetKu Backup",
+  "@backupFilename": {
+    "description": "Backup file name prefix",
+    "type": "String"
+  },
+  "encrypted": "Encrypted",
+  "@encrypted": {
+    "description": "Encrypted label",
+    "type": "String"
+  },
+  "exportFailed": "Export failed",
+  "@exportFailed": {
+    "description": "Export failed error message",
+    "type": "String"
+  },
+  "readFileFailed": "Failed to read file",
+  "@readFileFailed": {
+    "description": "Read file failed error message",
+    "type": "String"
+  },
+  "restoreFailed": "Restore failed",
+  "@restoreFailed": {
+    "description": "Restore failed error message",
+    "type": "String"
+  },
+  "noTransactionsThisMonth": "No transactions\nthis month",
+  "@noTransactionsThisMonth": {
+    "description": "No transactions this month empty state",
+    "type": "String"
+  },
+  "noStatisticsData": "No statistics data",
+  "@noStatisticsData": {
+    "description": "No statistics data empty state",
+    "type": "String"
+  },
+  "noBackupData": "No backup data",
+  "@noBackupData": {
+    "description": "No backup data empty state",
+    "type": "String"
+  },
+  "clickExportBackup": "Click \"New Export\" to create backup",
+  "@clickExportBackup": {
+    "description": "Click export new to create backup instruction",
+    "type": "String"
+  },
+  "trashEmpty": "Trash is empty",
+  "@trashEmpty": {
+    "description": "Trash empty message",
+    "type": "String"
+  },
+  "noDebts": "You have no debts.",
+  "@noDebts": {
+    "description": "No debts message",
+    "type": "String"
+  },
+  "noReceivables": "No pending receivables.",
+  "@noReceivables": {
+    "description": "No receivables message",
+    "type": "String"
+  },
+  "noPayments": "No payments yet.",
+  "@noPayments": {
+    "description": "No payments message",
+    "type": "String"
+  },
+  "noRecurringTransactions": "No recurring transactions",
+  "@noRecurringTransactions": {
+    "description": "No recurring transactions empty state",
+    "type": "String"
+  },
+  "noSavingsGoals": "You have no savings goals yet.",
+  "@noSavingsGoals": {
+    "description": "No savings goals message",
+    "type": "String"
+  },
+  "noActiveDebt": "No active debt or receivable",
+  "@noActiveDebt": {
+    "description": "No active debt or receivable message",
+    "type": "String"
+  },
+  "noBudget": "No budget set",
+  "@noBudget": {
+    "description": "No budget message",
+    "type": "String"
+  },
+  "noCategoryData": "No category data",
+  "@noCategoryData": {
+    "description": "No category data empty state",
+    "type": "String"
+  },
+  "noSavings": "No savings goals",
+  "@noSavings": {
+    "description": "No savings empty state",
+    "type": "String"
+  },
+  "darkModeActive": "Active — dark theme enabled",
+  "@darkModeActive": {
+    "description": "Dark mode active status message",
+    "type": "String"
+  },
+  "darkModeInactive": "Inactive — light theme enabled",
+  "@darkModeInactive": {
+    "description": "Dark mode inactive status message",
+    "type": "String"
+  },
+  "fingerprintActive": "Active — open with fingerprint",
+  "@fingerprintActive": {
+    "description": "Fingerprint active status message",
+    "type": "String"
+  },
+  "fingerprintInactive": "Inactive — open with PIN only",
+  "@fingerprintInactive": {
+    "description": "Fingerprint inactive status message",
+    "type": "String"
+  },
+  "setPinFirst": "Set PIN first",
+  "@setPinFirst": {
+    "description": "Set PIN first warning message",
+    "type": "String"
+  },
+  "fingerprintNotAvailable": "Not available on this device",
+  "@fingerprintNotAvailable": {
+    "description": "Fingerprint not available message",
+    "type": "String"
+  },
+  "appDescription": "Personal financial recording app",
+  "@appDescription": {
+    "description": "App description for about page",
+    "type": "String"
+  },
+  "designedWith": "Designed with Flutter & Riverpod",
+  "@designedWith": {
+    "description": "Designed with Flutter and Riverpod message",
+    "type": "String"
+  },
+  "appearance": "Appearance",
+  "@appearance": {
+    "description": "Appearance settings section title",
+    "type": "String"
+  },
+  "security": "Security",
+  "@security": {
+    "description": "Security settings section title",
+    "type": "String"
+  },
+  "about": "About",
+  "@about": {
+    "description": "About settings section title",
+    "type": "String"
+  },
+  "income": "Income",
+  "@income": {
+    "description": "Income label",
+    "type": "String"
+  },
+  "expense": "Expense",
+  "@expense": {
+    "description": "Expense label",
+    "type": "String"
+  },
+  "monthlyBalance": "This Month's Balance",
+  "@monthlyBalance": {
+    "description": "Monthly balance card title",
+    "type": "String"
+  },
+  "transactionsThisMonth": "Transactions This Month",
+  "@transactionsThisMonth": {
+    "description": "Transactions this month label",
+    "type": "String"
+  },
+  "totalExpense": "Total Expense",
+  "@totalExpense": {
+    "description": "Total expense label",
+    "type": "String"
+  },
+  "trashDescription": "Deleted transactions can be recovered within 30 days.",
+  "@trashDescription": {
+    "description": "Trash page description",
+    "type": "String"
+  },
+  "recurringAutoCreated": "Recurring transactions have been auto-created",
+  "@recurringAutoCreated": {
+    "description": "Recurring transactions auto-created snackbar message",
+    "type": "String"
+  },
+  "recordNew": "Record New",
+  "@recordNew": {
+    "description": "Record new transaction label",
+    "type": "String"
+  },
+  "activeStatus": "Active",
+  "@activeStatus": {
+    "description": "Active status label",
+    "type": "String"
+  },
+  "deletedWalletError": "At least 1 wallet must exist",
+  "@deletedWalletError": {
+    "description": "Cannot delete last wallet error message",
+    "type": "String"
+  },
+  "defaultCategoryError": "Default category cannot be deleted",
+  "@defaultCategoryError": {
+    "description": "Cannot delete default category error message",
+    "type": "String"
+  },
+  "totalBalance": "Total Balance",
+  "@totalBalance": {
+    "description": "Total balance label",
+    "type": "String"
+  },
+  "walletsActive": "{count} active wallet(s)",
+  "@walletsActive": {
+    "description": "Number of active wallets label",
+    "type": "String",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "budgetThisMonth": "Budget This Month",
+  "@budgetThisMonth": {
+    "description": "Budget this month label",
+    "type": "String"
+  },
+  "savingsDream": "Savings Goals",
+  "@savingsDream": {
+    "description": "Savings dream label",
+    "type": "String"
+  },
+  "debtsReceivables": "Debts & Receivables",
+  "@debtsReceivables": {
+    "description": "Debts and receivables label",
+    "type": "String"
+  },
+  "weeklySpending": "Last 7 Days Spending",
+  "@weeklySpending": {
+    "description": "Weekly spending label",
+    "type": "String"
+  },
+  "expenseByCategory": "Expenses by Category",
+  "@expenseByCategory": {
+    "description": "Expense by category label",
+    "type": "String"
+  },
+  "balanceCardSubtitle": "This Month's Balance",
+  "@balanceCardSubtitle": {
+    "description": "Balance card subtitle",
+    "type": "String"
+  },
+  "budgetRemaining": "remaining",
+  "@budgetRemaining": {
+    "description": "Budget remaining suffix",
+    "type": "String"
+  },
+  "overBudget": "Over budget for {kategori}!",
+  "@overBudget": {
+    "description": "Over budget warning message",
+    "type": "String",
+    "placeholders": {
+      "kategori": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetPercentage": "{percent}% of {kategori} budget used",
+  "@budgetPercentage": {
+    "description": "Budget percentage used message",
+    "type": "String",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "kategori": {
+        "type": "String"
+      }
+    }
+  },
+  "currencySymbol": "Rp",
+  "@currencySymbol": {
+    "description": "Currency symbol for Indonesian Rupiah",
+    "type": "String"
+  },
+  "yes": "Yes",
+  "@yes": {
+    "description": "Yes confirmation label",
+    "type": "String"
+  },
+  "no": "No",
+  "@no": {
+    "description": "No confirmation label",
+    "type": "String"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button label",
+    "type": "String"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Error label",
+    "type": "String"
+  },
+  "loading": "Loading...",
+  "@loading": {
+    "description": "Loading text",
+    "type": "String"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button label",
+    "type": "String"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Today label",
+    "type": "String"
+  },
+  "yesterday": "Yesterday",
+  "@yesterday": {
+    "description": "Yesterday label",
+    "type": "String"
+  },
+  "thisWeek": "This Week",
+  "@thisWeek": {
+    "description": "This week label",
+    "type": "String"
+  },
+  "thisMonth": "This Month",
+  "@thisMonth": {
+    "description": "This month label",
+    "type": "String"
+  }
+}

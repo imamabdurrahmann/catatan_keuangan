@@ -1,0 +1,61 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, 'release/*' ]
+    tags: [ 'v*' ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ${{ matrix.type }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: [apk, aab]
+        include:
+          - type: apk
+            artifact_name: app-release.apk
+            artifact_path: build/app/outputs/flutter-apk/app-release.apk
+          - type: aab
+            artifact_name: app-release.aab
+            artifact_path: build/app/outputs/bundle/release/app-release.aab
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.19.0
+          cache: true
+          pub-cache: true
+
+      - run: flutter pub get
+
+      - name: Setup signing
+        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > android/app/release.jks
+          echo "storePassword=$KEYSTORE_PASSWORD" > android/key.properties
+          echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
+          echo "keyAlias=$KEY_ALIAS" >> android/key.properties
+          echo "storeFile=app/release.jks" >> android/key.properties
+
+      - name: Build APK
+        if: matrix.type == 'apk'
+        run: flutter build apk --release
+
+      - name: Build AAB
+        if: matrix.type == 'aab'
+        run: flutter build appbundle --release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_path }}
+          retention-days: 14

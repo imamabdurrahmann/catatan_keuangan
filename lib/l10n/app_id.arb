@@ -1,0 +1,856 @@
+{
+  "@@locale": "id",
+  "homeTabToday": "Hari Ini",
+  "@homeTabToday": {
+    "description": "Tab label for today view",
+    "type": "String"
+  },
+  "homeTabByDate": "Per Tanggal",
+  "@homeTabByDate": {
+    "description": "Tab label for date-based view",
+    "type": "String"
+  },
+  "homeTabMonthly": "Bulanan",
+  "@homeTabMonthly": {
+    "description": "Tab label for monthly view",
+    "type": "String"
+  },
+  "homeTabOther": "Lainnya",
+  "@homeTabOther": {
+    "description": "Tab label for other/miscellaneous view",
+    "type": "String"
+  },
+  "homeTabDashboard": "Dashboard",
+  "@homeTabDashboard": {
+    "description": "Tab label for dashboard view",
+    "type": "String"
+  },
+  "settingsTitle": "Pengaturan",
+  "@settingsTitle": {
+    "description": "Settings page title",
+    "type": "String"
+  },
+  "statisticsTitle": "Statistik",
+  "@statisticsTitle": {
+    "description": "Statistics page title",
+    "type": "String"
+  },
+  "backupRestoreTitle": "Backup & Pulihkan",
+  "@backupRestoreTitle": {
+    "description": "Backup and restore page title",
+    "type": "String"
+  },
+  "debtTitle": "Utang & Piutang",
+  "@debtTitle": {
+    "description": "Debt and receivable page title",
+    "type": "String"
+  },
+  "savingsTitle": "Tabungan Impian",
+  "@savingsTitle": {
+    "description": "Savings goals page title",
+    "type": "String"
+  },
+  "menuTitle": "Menu",
+  "@menuTitle": {
+    "description": "Menu title",
+    "type": "String"
+  },
+  "lightMode": "Mode Terang",
+  "@lightMode": {
+    "description": "Light theme option label",
+    "type": "String"
+  },
+  "darkMode": "Mode Gelap",
+  "@darkMode": {
+    "description": "Dark theme option label",
+    "type": "String"
+  },
+  "searchTransaction": "Cari Transaksi",
+  "@searchTransaction": {
+    "description": "Search transaction placeholder",
+    "type": "String"
+  },
+  "addTransaction": "Tambah Transaksi",
+  "@addTransaction": {
+    "description": "Add transaction button label",
+    "type": "String"
+  },
+  "scanReceipt": "Pindai Struk (A.I)",
+  "@scanReceipt": {
+    "description": "Scan receipt button label",
+    "type": "String"
+  },
+  "recurringTransaction": "Transaksi Berulang",
+  "@recurringTransaction": {
+    "description": "Recurring transaction label",
+    "type": "String"
+  },
+  "saveTransaction": "SIMPAN TRANSAKSI",
+  "@saveTransaction": {
+    "description": "Save transaction button label",
+    "type": "String"
+  },
+  "savingTransaction": "Menyimpan...",
+  "@savingTransaction": {
+    "description": "Saving transaction loading text",
+    "type": "String"
+  },
+  "newExport": "Ekspor Baru",
+  "@newExport": {
+    "description": "New export button label",
+    "type": "String"
+  },
+  "restoreFromFile": "Pulihkan dari File",
+  "@restoreFromFile": {
+    "description": "Restore from file button label",
+    "type": "String"
+  },
+  "trash": "Tong Sampah",
+  "@trash": {
+    "description": "Trash page title",
+    "type": "String"
+  },
+  "manageWallet": "Kelola Dompet",
+  "@manageWallet": {
+    "description": "Manage wallet label",
+    "type": "String"
+  },
+  "setBudget": "Atur Budget",
+  "@setBudget": {
+    "description": "Set budget label",
+    "type": "String"
+  },
+  "manageCategory": "Kelola Kategori",
+  "@manageCategory": {
+    "description": "Manage category label",
+    "type": "String"
+  },
+  "backupRestore": "Backup & Pulihkan",
+  "@backupRestore": {
+    "description": "Backup and restore menu label",
+    "type": "String"
+  },
+  "settings": "Pengaturan",
+  "@settings": {
+    "description": "Settings menu label",
+    "type": "String"
+  },
+  "amount": "Jumlah",
+  "@amount": {
+    "description": "Amount field label",
+    "type": "String"
+  },
+  "description": "Deskripsi",
+  "@description": {
+    "description": "Description field label",
+    "type": "String"
+  },
+  "category": "Kategori",
+  "@category": {
+    "description": "Category field label",
+    "type": "String"
+  },
+  "attachment": "Lampiran",
+  "@attachment": {
+    "description": "Attachment field label",
+    "type": "String"
+  },
+  "walletName": "Nama Dompet",
+  "@walletName": {
+    "description": "Wallet name field label",
+    "type": "String"
+  },
+  "newWallet": "Dompet baru",
+  "@newWallet": {
+    "description": "New wallet label",
+    "type": "String"
+  },
+  "walletBalance": "Saldo",
+  "@walletBalance": {
+    "description": "Wallet balance label",
+    "type": "String"
+  },
+  "categoryName": "Nama Kategori",
+  "@categoryName": {
+    "description": "Category name field label",
+    "type": "String"
+  },
+  "newCategory": "Kategori baru",
+  "@newCategory": {
+    "description": "New category label",
+    "type": "String"
+  },
+  "expenseCategory": "Pengeluaran",
+  "@expenseCategory": {
+    "description": "Expense category type label",
+    "type": "String"
+  },
+  "incomeCategory": "Pemasukan",
+  "@incomeCategory": {
+    "description": "Income category type label",
+    "type": "String"
+  },
+  "defaultCategory": "Default",
+  "@defaultCategory": {
+    "description": "Default category label",
+    "type": "String"
+  },
+  "borrowerLenderName": "Nama Peminjam / Yang Dihutangi",
+  "@borrowerLenderName": {
+    "description": "Borrower or lender name field label",
+    "type": "String"
+  },
+  "totalAmount": "Nominal Total",
+  "@totalAmount": {
+    "description": "Total amount field label",
+    "type": "String"
+  },
+  "dueDateOptional": "Set Tenggat Waktu (Opsional)",
+  "@dueDateOptional": {
+    "description": "Due date optional field label",
+    "type": "String"
+  },
+  "notesOptional": "Catatan (Opsional)",
+  "@notesOptional": {
+    "description": "Notes optional field label",
+    "type": "String"
+  },
+  "savingsAmount": "Nominal Tabung (Rp)",
+  "@savingsAmount": {
+    "description": "Savings amount field label",
+    "type": "String"
+  },
+  "savingsGoalName": "Nama Barang/Tujuan (Cth: Laptop)",
+  "@savingsGoalName": {
+    "description": "Savings goal name field label",
+    "type": "String"
+  },
+  "targetAmount": "Target Nominal",
+  "@targetAmount": {
+    "description": "Target amount field label",
+    "type": "String"
+  },
+  "targetDateOptional": "Set Target Tanggal (Opsional)",
+  "@targetDateOptional": {
+    "description": "Target date optional field label",
+    "type": "String"
+  },
+  "budgetAmount": "Nominal Anggaran",
+  "@budgetAmount": {
+    "description": "Budget amount field label",
+    "type": "String"
+  },
+  "deleteWallet": "Hapus Dompet",
+  "@deleteWallet": {
+    "description": "Delete wallet action label",
+    "type": "String"
+  },
+  "deleteCategory": "Hapus Kategori",
+  "@deleteCategory": {
+    "description": "Delete category action label",
+    "type": "String"
+  },
+  "deletePermanently": "Hapus Permanen",
+  "@deletePermanently": {
+    "description": "Delete permanently action label",
+    "type": "String"
+  },
+  "deleteData": "Hapus Data",
+  "@deleteData": {
+    "description": "Delete data action label",
+    "type": "String"
+  },
+  "deleteTarget": "Hapus Target",
+  "@deleteTarget": {
+    "description": "Delete target action label",
+    "type": "String"
+  },
+  "cancel": "Batal",
+  "@cancel": {
+    "description": "Cancel button label",
+    "type": "String"
+  },
+  "save": "Simpan",
+  "@save": {
+    "description": "Save button label",
+    "type": "String"
+  },
+  "savePin": "Simpan PIN",
+  "@savePin": {
+    "description": "Save PIN button label",
+    "type": "String"
+  },
+  "saveTarget": "Simpan Target",
+  "@saveTarget": {
+    "description": "Save target button label",
+    "type": "String"
+  },
+  "confirmDelete": "Tetap Hapus",
+  "@confirmDelete": {
+    "description": "Confirm delete button label",
+    "type": "String"
+  },
+  "chooseFile": "Pilih File",
+  "@chooseFile": {
+    "description": "Choose file button label",
+    "type": "String"
+  },
+  "restore": "Pulihkan",
+  "@restore": {
+    "description": "Restore button label",
+    "type": "String"
+  },
+  "decrypt": "Dekripsi",
+  "@decrypt": {
+    "description": "Decrypt button label",
+    "type": "String"
+  },
+  "export": "Ekspor",
+  "@export": {
+    "description": "Export button label",
+    "type": "String"
+  },
+  "share": "Bagikan",
+  "@share": {
+    "description": "Share button label",
+    "type": "String"
+  },
+  "delete": "Hapus",
+  "@delete": {
+    "description": "Delete button label",
+    "type": "String"
+  },
+  "deleteBackup": "Hapus Cadangan",
+  "@deleteBackup": {
+    "description": "Delete backup action label",
+    "type": "String"
+  },
+  "close": "Tutup",
+  "@close": {
+    "description": "Close button label",
+    "type": "String"
+  },
+  "iOwe": "Saya Berutang (Utang)",
+  "@iOwe": {
+    "description": "I owe (debt) label",
+    "type": "String"
+  },
+  "theyOwe": "Orang Berutang (Piutang)",
+  "@theyOwe": {
+    "description": "They owe (receivable) label",
+    "type": "String"
+  },
+  "payDebt": "Bayar Utang",
+  "@payDebt": {
+    "description": "Pay debt action label",
+    "type": "String"
+  },
+  "receiveInstallment": "Terima Cicilan",
+  "@receiveInstallment": {
+    "description": "Receive installment action label",
+    "type": "String"
+  },
+  "paymentHistory": "Riwayat Pembayaran",
+  "@paymentHistory": {
+    "description": "Payment history label",
+    "type": "String"
+  },
+  "createTarget": "Buat Target",
+  "@createTarget": {
+    "description": "Create target button label",
+    "type": "String"
+  },
+  "newTarget": "Target Baru",
+  "@newTarget": {
+    "description": "New target label",
+    "type": "String"
+  },
+  "saveSavings": "Tabungkan",
+  "@saveSavings": {
+    "description": "Save savings button label",
+    "type": "String"
+  },
+  "createPin": "Buat PIN",
+  "@createPin": {
+    "description": "Create PIN button label",
+    "type": "String"
+  },
+  "confirmPin": "Konfirmasi PIN",
+  "@confirmPin": {
+    "description": "Confirm PIN label",
+    "type": "String"
+  },
+  "enterPin": "Masukkan PIN",
+  "@enterPin": {
+    "description": "Enter PIN label",
+    "type": "String"
+  },
+  "pinMin4Digits": "PIN minimal 4 digit",
+  "@pinMin4Digits": {
+    "description": "PIN minimum 4 digits validation message",
+    "type": "String"
+  },
+  "pinNotMatch": "PIN tidak cocok",
+  "@pinNotMatch": {
+    "description": "PIN does not match error message",
+    "type": "String"
+  },
+  "wrongPin": "PIN salah",
+  "@wrongPin": {
+    "description": "Wrong PIN error message",
+    "type": "String"
+  },
+  "verifyFingerprint": "Verifikasi sidik jari untuk membuka aplikasi",
+  "@verifyFingerprint": {
+    "description": "Verify fingerprint instruction message",
+    "type": "String"
+  },
+  "useFingerprint": "Gunakan Sidik Jari",
+  "@useFingerprint": {
+    "description": "Use fingerprint button label",
+    "type": "String"
+  },
+  "enableFingerprint": "Aktifkan sidik jari",
+  "@enableFingerprint": {
+    "description": "Enable fingerprint label",
+    "type": "String"
+  },
+  "openWithFingerprint": "Buka dengan sidik jari",
+  "@openWithFingerprint": {
+    "description": "Open with fingerprint label",
+    "type": "String"
+  },
+  "enterSamePin": "Masukkan PIN yang sama untuk konfirmasi",
+  "@enterSamePin": {
+    "description": "Enter same PIN for confirmation instruction",
+    "type": "String"
+  },
+  "open": "Buka",
+  "@open": {
+    "description": "Open button label",
+    "type": "String"
+  },
+  "exportData": "Ekspor Data",
+  "@exportData": {
+    "description": "Export data label",
+    "type": "String"
+  },
+  "protectBackupPassword": "Lindungi cadangan dengan kata sandi?",
+  "@protectBackupPassword": {
+    "description": "Protect backup with password prompt",
+    "type": "String"
+  },
+  "usePassword": "Gunakan kata sandi",
+  "@usePassword": {
+    "description": "Use password label",
+    "type": "String"
+  },
+  "password": "Kata Sandi",
+  "@password": {
+    "description": "Password field label",
+    "type": "String"
+  },
+  "confirmPassword": "Konfirmasi Kata Sandi",
+  "@confirmPassword": {
+    "description": "Confirm password field label",
+    "type": "String"
+  },
+  "repeatPassword": "Ulangi kata sandi",
+  "@repeatPassword": {
+    "description": "Repeat password field label",
+    "type": "String"
+  },
+  "passwordEmpty": "Kata sandi tidak boleh kosong",
+  "@passwordEmpty": {
+    "description": "Password empty validation message",
+    "type": "String"
+  },
+  "passwordNotMatch": "Kata sandi tidak cocok",
+  "@passwordNotMatch": {
+    "description": "Password does not match error message",
+    "type": "String"
+  },
+  "wrongPasswordCorrupt": "Kata sandi salah atau file rusak",
+  "@wrongPasswordCorrupt": {
+    "description": "Wrong password or corrupt file error message",
+    "type": "String"
+  },
+  "exportSuccess": "Ekspor Berhasil",
+  "@exportSuccess": {
+    "description": "Export success message",
+    "type": "String"
+  },
+  "encryptedFile": "(File terenkripsi AES-256)",
+  "@encryptedFile": {
+    "description": "Encrypted file note",
+    "type": "String"
+  },
+  "restoreData": "Pulihkan Data",
+  "@restoreData": {
+    "description": "Restore data label",
+    "type": "String"
+  },
+  "restoreWillReplace": "Ini akan MENGGANTIKAN semua data saat ini dengan data dari file cadangan. Lanjutkan?",
+  "@restoreWillReplace": {
+    "description": "Restore will replace all data warning message",
+    "type": "String"
+  },
+  "restoreBackup": "Pulihkan Cadangan",
+  "@restoreBackup": {
+    "description": "Restore backup button label",
+    "type": "String"
+  },
+  "fileEncrypted": "File Terenkripsi",
+  "@fileEncrypted": {
+    "description": "File encrypted label",
+    "type": "String"
+  },
+  "enterPasswordBackup": "Masukkan kata sandi untuk membuka file cadangan.",
+  "@enterPasswordBackup": {
+    "description": "Enter password to open backup file instruction",
+    "type": "String"
+  },
+  "restoringData": "Memulihkan data...",
+  "@restoringData": {
+    "description": "Restoring data loading message",
+    "type": "String"
+  },
+  "restoreSuccess": "Data berhasil dipulihkan",
+  "@restoreSuccess": {
+    "description": "Restore success message",
+    "type": "String"
+  },
+  "backupFilename": "Backup DompetKu",
+  "@backupFilename": {
+    "description": "Backup file name prefix",
+    "type": "String"
+  },
+  "encrypted": "Terenkripsi",
+  "@encrypted": {
+    "description": "Encrypted label",
+    "type": "String"
+  },
+  "exportFailed": "Gagal mengekspor",
+  "@exportFailed": {
+    "description": "Export failed error message",
+    "type": "String"
+  },
+  "readFileFailed": "Gagal membaca file",
+  "@readFileFailed": {
+    "description": "Read file failed error message",
+    "type": "String"
+  },
+  "restoreFailed": "Gagal memulihkan",
+  "@restoreFailed": {
+    "description": "Restore failed error message",
+    "type": "String"
+  },
+  "noTransactionsThisMonth": "Belum ada transaksi\nbulan ini",
+  "@noTransactionsThisMonth": {
+    "description": "No transactions this month empty state",
+    "type": "String"
+  },
+  "noStatisticsData": "Tidak ada data statistik",
+  "@noStatisticsData": {
+    "description": "No statistics data empty state",
+    "type": "String"
+  },
+  "noBackupData": "Belum ada cadangan data",
+  "@noBackupData": {
+    "description": "No backup data empty state",
+    "type": "String"
+  },
+  "clickExportBackup": "Klik \"Ekspor Baru\" untuk membuat backup",
+  "@clickExportBackup": {
+    "description": "Click export new to create backup instruction",
+    "type": "String"
+  },
+  "trashEmpty": "Tong Sampah kosong",
+  "@trashEmpty": {
+    "description": "Trash empty message",
+    "type": "String"
+  },
+  "noDebts": "Anda tidak memiliki utang.",
+  "@noDebts": {
+    "description": "No debts message",
+    "type": "String"
+  },
+  "noReceivables": "Tidak ada piutang pending.",
+  "@noReceivables": {
+    "description": "No receivables message",
+    "type": "String"
+  },
+  "noPayments": "Belum ada pembayaran.",
+  "@noPayments": {
+    "description": "No payments message",
+    "type": "String"
+  },
+  "noRecurringTransactions": "Belum ada transaksi berulang",
+  "@noRecurringTransactions": {
+    "description": "No recurring transactions empty state",
+    "type": "String"
+  },
+  "noSavingsGoals": "Anda belum memiliki target tabungan.",
+  "@noSavingsGoals": {
+    "description": "No savings goals message",
+    "type": "String"
+  },
+  "noActiveDebt": "Tidak ada utang atau piutang aktif",
+  "@noActiveDebt": {
+    "description": "No active debt or receivable message",
+    "type": "String"
+  },
+  "noBudget": "Belum ada anggaran",
+  "@noBudget": {
+    "description": "No budget message",
+    "type": "String"
+  },
+  "noCategoryData": "Belum ada data kategori",
+  "@noCategoryData": {
+    "description": "No category data empty state",
+    "type": "String"
+  },
+  "noSavings": "Belum ada tabungan impian",
+  "@noSavings": {
+    "description": "No savings empty state",
+    "type": "String"
+  },
+  "darkModeActive": "Aktif — tema gelap digunakan",
+  "@darkModeActive": {
+    "description": "Dark mode active status message",
+    "type": "String"
+  },
+  "darkModeInactive": "Nonaktif — tema terang digunakan",
+  "@darkModeInactive": {
+    "description": "Dark mode inactive status message",
+    "type": "String"
+  },
+  "fingerprintActive": "Aktif — buka dengan sidik jari",
+  "@fingerprintActive": {
+    "description": "Fingerprint active status message",
+    "type": "String"
+  },
+  "fingerprintInactive": "Nonaktif — buka dengan PIN saja",
+  "@fingerprintInactive": {
+    "description": "Fingerprint inactive status message",
+    "type": "String"
+  },
+  "setPinFirst": "Atur PIN terlebih dahulu",
+  "@setPinFirst": {
+    "description": "Set PIN first warning message",
+    "type": "String"
+  },
+  "fingerprintNotAvailable": "Tidak tersedia di perangkat ini",
+  "@fingerprintNotAvailable": {
+    "description": "Fingerprint not available message",
+    "type": "String"
+  },
+  "appDescription": "Aplikasi pencatatan keuangan personal",
+  "@appDescription": {
+    "description": "App description for about page",
+    "type": "String"
+  },
+  "designedWith": "Dirancang dengan Flutter & Riverpod",
+  "@designedWith": {
+    "description": "Designed with Flutter and Riverpod message",
+    "type": "String"
+  },
+  "appearance": "Tampilan",
+  "@appearance": {
+    "description": "Appearance settings section title",
+    "type": "String"
+  },
+  "security": "Keamanan",
+  "@security": {
+    "description": "Security settings section title",
+    "type": "String"
+  },
+  "about": "Tentang",
+  "@about": {
+    "description": "About settings section title",
+    "type": "String"
+  },
+  "income": "Pemasukan",
+  "@income": {
+    "description": "Income label",
+    "type": "String"
+  },
+  "expense": "Pengeluaran",
+  "@expense": {
+    "description": "Expense label",
+    "type": "String"
+  },
+  "monthlyBalance": "Saldo Bulan Ini",
+  "@monthlyBalance": {
+    "description": "Monthly balance card title",
+    "type": "String"
+  },
+  "transactionsThisMonth": "Transaksi Bulan Ini",
+  "@transactionsThisMonth": {
+    "description": "Transactions this month label",
+    "type": "String"
+  },
+  "totalExpense": "Total Pengeluaran",
+  "@totalExpense": {
+    "description": "Total expense label",
+    "type": "String"
+  },
+  "trashDescription": "Transaksi yang dihapus dapat dipulihkan dalam 30 hari.",
+  "@trashDescription": {
+    "description": "Trash page description",
+    "type": "String"
+  },
+  "recurringAutoCreated": "Transaksi berulang telah dibuat otomatis",
+  "@recurringAutoCreated": {
+    "description": "Recurring transactions auto-created snackbar message",
+    "type": "String"
+  },
+  "recordNew": "Catat Baru",
+  "@recordNew": {
+    "description": "Record new transaction label",
+    "type": "String"
+  },
+  "activeStatus": "Aktif",
+  "@activeStatus": {
+    "description": "Active status label",
+    "type": "String"
+  },
+  "deletedWalletError": "Minimal harus ada 1 dompet",
+  "@deletedWalletError": {
+    "description": "Cannot delete last wallet error message",
+    "type": "String"
+  },
+  "defaultCategoryError": "Kategori bawaan tidak bisa dihapus",
+  "@defaultCategoryError": {
+    "description": "Cannot delete default category error message",
+    "type": "String"
+  },
+  "totalBalance": "Total Saldo",
+  "@totalBalance": {
+    "description": "Total balance label",
+    "type": "String"
+  },
+  "walletsActive": "{count} dompet aktif",
+  "@walletsActive": {
+    "description": "Number of active wallets label",
+    "type": "String",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "budgetThisMonth": "Anggaran Bulan Ini",
+  "@budgetThisMonth": {
+    "description": "Budget this month label",
+    "type": "String"
+  },
+  "savingsDream": "Tabungan Impian",
+  "@savingsDream": {
+    "description": "Savings dream label",
+    "type": "String"
+  },
+  "debtsReceivables": "Utang & Piutang",
+  "@debtsReceivables": {
+    "description": "Debts and receivables label",
+    "type": "String"
+  },
+  "weeklySpending": "Pengeluaran 7 Hari Terakhir",
+  "@weeklySpending": {
+    "description": "Weekly spending label",
+    "type": "String"
+  },
+  "expenseByCategory": "Pengeluaran per Kategori",
+  "@expenseByCategory": {
+    "description": "Expense by category label",
+    "type": "String"
+  },
+  "balanceCardSubtitle": "Saldo Bulan Ini",
+  "@balanceCardSubtitle": {
+    "description": "Balance card subtitle",
+    "type": "String"
+  },
+  "budgetRemaining": "tersisa",
+  "@budgetRemaining": {
+    "description": "Budget remaining suffix",
+    "type": "String"
+  },
+  "overBudget": "Melebihi budget {kategori}!",
+  "@overBudget": {
+    "description": "Over budget warning message",
+    "type": "String",
+    "placeholders": {
+      "kategori": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetPercentage": "{percent}% budget {kategori} terpakai",
+  "@budgetPercentage": {
+    "description": "Budget percentage used message",
+    "type": "String",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "kategori": {
+        "type": "String"
+      }
+    }
+  },
+  "currencySymbol": "Rp",
+  "@currencySymbol": {
+    "description": "Currency symbol for Indonesian Rupiah",
+    "type": "String"
+  },
+  "yes": "Ya",
+  "@yes": {
+    "description": "Yes confirmation label",
+    "type": "String"
+  },
+  "no": "Tidak",
+  "@no": {
+    "description": "No confirmation label",
+    "type": "String"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button label",
+    "type": "String"
+  },
+  "error": "Error",
+  "@error": {
+    "description": "Error label",
+    "type": "String"
+  },
+  "loading": "Memuat...",
+  "@loading": {
+    "description": "Loading text",
+    "type": "String"
+  },
+  "retry": "Coba Lagi",
+  "@retry": {
+    "description": "Retry button label",
+    "type": "String"
+  },
+  "today": "Hari Ini",
+  "@today": {
+    "description": "Today label",
+    "type": "String"
+  },
+  "yesterday": "Kemarin",
+  "@yesterday": {
+    "description": "Yesterday label",
+    "type": "String"
+  },
+  "thisWeek": "Minggu Ini",
+  "@thisWeek": {
+    "description": "This week label",
+    "type": "String"
+  },
+  "thisMonth": "Bulan Ini",
+  "@thisMonth": {
+    "description": "This month label",
+    "type": "String"
+  }
+}

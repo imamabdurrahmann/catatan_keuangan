@@ -1,0 +1,35 @@
+<h2>3 Pendekatan Desain</h2>
+<p class="subtitle">Berdasarkan profil kamu: pemula, hobby, flexible budget, arm robot</p>
+
+<div class="options">
+  <div class="option" data-choice="phased" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Phased Build (Recommended)</h3>
+      <p><strong>Fase 1:</strong> Arm 4-DOF (base rotate, shoulder, elbow, gripper) + dry run tanpa air. Belajar inverse kinematics dasar + servo control.</p>
+      <p><strong>Fase 2:</strong> Tambah water tank + pompa + solenoid valve. Cycle: rendam → gosok → bilas.</p>
+      <p><strong>Fase 3:</strong> Tambah sensor proximity + feedback loop.</p>
+      <p style="margin-top:8px"><strong>Kenapa saya rekomendasikan:</strong> Belajar step-by-step, setiap fase bisa work independently, hasilnya bisa di-share bertahap.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="miniframe" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Minimal Frame Design</h3>
+      <p>Arm SCARA-style (2-DOF horizontal + gripper) dengan linear rail untuk naik-turun. Lebih murah karena pakai motor DC + encoder daripada servo mahal.</p>
+      <p>Water tank integrated di base. Butuh mekanik lebih banyak tapi kontrol relatif lebih simpel karena SCARA kinematics mudah dihitung.</p>
+      <p style="margin-top:8px"><strong>Kenapa:</strong> Lebih murah dan sturdy, tapi range motion lebih terbatas.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="fullfeat" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Full-Featured Robot</h3>
+      <p>Arm 5-DOF dengan stepper motor + optical encoder, suction gripper, water heating, UV sanitization, dan display LCD untuk status.</p>
+      <p>Full cycle: sort → rendam → gosok → bilas 2x → sanitize → kering → rak. Bisa handle multiple dishes sekaligus.</p>
+      <p style="margin-top:8px"><strong>Kenapa:</strong> Paling impressive, tapi kompleksitas tinggi untuk pemula — butuh waktu lebih lama dan banyak debugging.</p>
+    </div>
+  </div>
+</div>
