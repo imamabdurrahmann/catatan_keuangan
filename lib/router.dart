@@ -1,5 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'pages/auth/login_page.dart';
+import 'pages/auth/register_page.dart';
 import 'pages/core/home_page.dart';
 import 'pages/settings_security/settings_page.dart';
 import 'pages/reports_stats/statistik_page.dart';
@@ -9,22 +13,35 @@ import 'pages/budget_savings/budget_sheet.dart';
 import 'pages/gamification/achievement_page.dart';
 import 'pages/settings_security/backup_restore_page.dart';
 
-/// App router configuration with deep linking support.
+/// App router configuration with deep linking and auth guard support.
 ///
 /// Deep link scheme: `catatankeuangan://` or `https://catatankeuangan.app/`
 ///
 /// Supported routes:
-///   /                    → HomePage
+///   /login               → LoginPage
+///   /register            → RegisterPage
+///   /                    → HomePage (requires auth)
 ///   /settings            → SettingsPage
 ///   /statistik           → StatistikPage
-///   /transaksi/:id       → (future: detail page)
 ///   /budget              → BudgetSheet (current month/year)
 ///   /reports             → StatistikPage (alias for /statistik)
 ///   /debt                → UtangPiutangPage
-///   /dompet              → (future: dompet management)
 final appRouter = GoRouter(
   initialLocation: '/',
+  refreshListenable: GoRouterRefreshStream(
+    Supabase.instance.client.auth.onAuthStateChange,
+  ),
   routes: [
+    GoRoute(
+      path: '/login',
+      name: 'login',
+      builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/register',
+      name: 'register',
+      builder: (context, state) => const RegisterPage(),
+    ),
     GoRoute(
       path: '/',
       name: 'home',
@@ -123,8 +140,22 @@ final appRouter = GoRouter(
     // ),
   ],
   redirect: (context, state) {
-    // Handle deep link redirects if needed
-    // For example, redirect root to specific locale version
+    final session = Supabase.instance.client.auth.currentSession;
+    final isLoggedIn = session != null;
+    final isAuthRoute =
+        state.matchedLocation == '/login' ||
+        state.matchedLocation == '/register';
+
+    // Not logged in and not on auth page → redirect to login
+    if (!isLoggedIn && !isAuthRoute) {
+      return '/login';
+    }
+
+    // Logged in but on auth page → redirect to home
+    if (isLoggedIn && isAuthRoute) {
+      return '/';
+    }
+
     return null;
   },
   errorBuilder: (context, state) => Scaffold(
@@ -146,3 +177,20 @@ final appRouter = GoRouter(
     ),
   ),
 );
+
+class GoRouterRefreshStream extends ChangeNotifier {
+  late final StreamSubscription<AuthState> _subscription;
+
+  GoRouterRefreshStream(Stream<AuthState> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen(
+          (dynamic _) => notifyListeners(),
+        );
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
