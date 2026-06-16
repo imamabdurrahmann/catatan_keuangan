@@ -12,6 +12,8 @@ class AuthService {
   AuthService._();
   static final AuthService instance = AuthService._();
 
+  bool _isGoogleSignInInitialized = false;
+
   SupabaseClient get _client => SupabaseConfig.client;
 
   // ---------------------------------------------------------------------------
@@ -90,10 +92,13 @@ class AuthService {
         throw Exception('Google Web Client ID belum disetting di config.');
       }
 
-      await GoogleSignIn.instance.initialize(
-        serverClientId: SupabaseConfig.googleWebClientId,
-        clientId: SupabaseConfig.googleIosClientId.isNotEmpty ? SupabaseConfig.googleIosClientId : null,
-      );
+      if (!_isGoogleSignInInitialized) {
+        await GoogleSignIn.instance.initialize(
+          serverClientId: SupabaseConfig.googleWebClientId,
+          clientId: SupabaseConfig.googleIosClientId.isNotEmpty ? SupabaseConfig.googleIosClientId : null,
+        );
+        _isGoogleSignInInitialized = true;
+      }
 
       GoogleSignInAccount? googleUser;
       try {
