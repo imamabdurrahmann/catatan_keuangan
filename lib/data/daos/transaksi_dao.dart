@@ -294,7 +294,7 @@ class TransaksiDao {
     final startDate = DateTime(year, month, 1);
     final endDate = DateTime(year, month + 1, 0);
 
-    // 1. Calculate Pemasukan and Pengeluaran for the CURRENT month
+    // Calculate Pemasukan & Pengeluaran for the SELECTED MONTH only
     String whereMonthly = 'tanggal >= ? AND tanggal < ? AND deleted_at IS NULL';
     List<dynamic> whereArgsMonthly = [
       '${DateFormat('yyyy-MM-dd').format(startDate)} 00:00:00',
@@ -323,38 +323,10 @@ class TransaksiDao {
       }
     }
 
-    // 2. Calculate Saldo CUMULATIVE up to the end of the current month
-    String whereCumulative = 'tanggal < ? AND deleted_at IS NULL';
-    List<dynamic> whereArgsCumulative = [
-      '${DateFormat('yyyy-MM-dd').format(endDate.add(const Duration(days: 1)))} 00:00:00',
-    ];
-
-    if (idDompet != null) {
-      whereCumulative += ' AND id_dompet = ?';
-      whereArgsCumulative.add(idDompet);
-    }
-
-    final resultCumulative = await db.rawQuery(
-      'SELECT jenis, SUM(jumlah) as total FROM transaksi WHERE $whereCumulative GROUP BY jenis',
-      whereArgsCumulative,
-    );
-
-    double cumulativePemasukan = 0;
-    double cumulativePengeluaran = 0;
-    for (var row in resultCumulative) {
-      final jenis = row['jenis'] as String;
-      final total = (row['total'] as num?)?.toDouble() ?? 0;
-      if (jenis == 'pemasukan') {
-        cumulativePemasukan = total;
-      } else {
-        cumulativePengeluaran = total;
-      }
-    }
-
     return {
       'pemasukan': totalPemasukan,
       'pengeluaran': totalPengeluaran,
-      'saldo': cumulativePemasukan - cumulativePengeluaran,
+      'saldo': totalPemasukan - totalPengeluaran,
     };
   }
 
@@ -649,7 +621,7 @@ class TransaksiDao {
       [
         '${DateFormat('yyyy-MM-dd').format(startDate)} 00:00:00',
         '${DateFormat('yyyy-MM-dd').format(endDate.add(const Duration(days: 1)))} 00:00:00',
-        if (idDompet != null) idDompet,
+        ?idDompet,
       ],
     );
 

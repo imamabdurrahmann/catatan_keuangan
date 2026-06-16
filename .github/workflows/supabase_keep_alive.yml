@@ -1,0 +1,17 @@
+name: Supabase Auto Ping Keep Alive
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every 3 days (Monday and Thursday, etc.)
+    - cron: '0 0 */3 * *'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase API to keep project active
+        run: |
+          curl -i -X GET "https://bemencvwjhaxbtgbqxdb.supabase.co/rest/v1/" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlbWVuY3Z3amhheGJ0Z2JxeGRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MzU2MjksImV4cCI6MjA5NTUxMTYyOX0.8N78wwpEccOq8PkUGUkS_9EpsEMZ304u0nZ9pbJjlXg" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlbWVuY3Z3amhheGJ0Z2JxeGRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MzU2MjksImV4cCI6MjA5NTUxMTYyOX0.8N78wwpEccOq8PkUGUkS_9EpsEMZ304u0nZ9pbJjlXg"

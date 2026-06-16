@@ -6,6 +6,7 @@ import '../../theme/theme.dart';
 import '../../widgets/common/glass_container.dart';
 import '../../widgets/common/dompet_switcher.dart';
 import '../../utils/formatters.dart';
+import '../../utils/ui_utils.dart';
 import '../../widgets/transaksi_item_card.dart';
 import 'shared_tab_widgets.dart';
 
@@ -100,7 +101,7 @@ class _TabBulananState extends ConsumerState<TabBulanan>
             error: (e, _) => buildErrorWidget(e.toString()),
             data: (summary) => Column(
               children: [
-                const DompetSwitcher(),
+                const _DompetDropdown(),
                 const SizedBox(height: 4),
                 Expanded(
                   child: _BulananContent(summary: summary, params: params),
@@ -593,5 +594,104 @@ class _BudgetWarningList extends ConsumerWidget {
     if (warnings.isEmpty) return const SizedBox();
 
     return Column(children: warnings);
+  }
+}
+
+class _DompetDropdown extends ConsumerWidget {
+  const _DompetDropdown();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dompetAsync = ref.watch(dompetProvider);
+    final selectedId = ref.watch(selectedDompetFilterProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return dompetAsync.when(
+      loading: () => const SizedBox(height: 48),
+      error: (_, __) => const SizedBox(height: 48),
+      data: (dompetList) {
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: AppDecorations.glassCard(context),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<int?>(
+              value: selectedId,
+              isExpanded: true,
+              dropdownColor: isDark ? AppColors.darkCardElevated : Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              icon: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: isDark ? Colors.white70 : AppColors.primaryMid,
+              ),
+              hint: const Text('Pilih Dompet'),
+              selectedItemBuilder: (BuildContext context) {
+                final List<Widget> items = [
+                  const Row(
+                    children: [
+                      Icon(Icons.wallet_rounded, color: AppColors.emerald, size: 20),
+                      SizedBox(width: 10),
+                      Text('Semua Dompet', style: TextStyle(fontFamily: 'PlusJakartaSans', fontWeight: FontWeight.w700)),
+                    ],
+                  ),
+                ];
+                items.addAll(dompetList.map((d) {
+                  final color = getAppColor(d.warna);
+                  return Row(
+                    children: [
+                      Icon(Icons.account_balance_wallet_rounded, color: color, size: 20),
+                      const SizedBox(width: 10),
+                      Text(d.nama, style: const TextStyle(fontFamily: 'PlusJakartaSans', fontWeight: FontWeight.w700)),
+                    ],
+                  );
+                }));
+                return items;
+              },
+              items: [
+                DropdownMenuItem<int?>(
+                  value: null,
+                  child: Row(
+                    children: [
+                      Icon(Icons.wallet_rounded, color: isDark ? AppColors.emerald : AppColors.primaryMid, size: 20),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Semua Dompet',
+                        style: TextStyle(
+                          fontFamily: 'PlusJakartaSans',
+                          color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                ...dompetList.map((d) {
+                  final color = getAppColor(d.warna);
+                  return DropdownMenuItem<int?>(
+                    value: d.id,
+                    child: Row(
+                      children: [
+                        Icon(Icons.account_balance_wallet_rounded, color: color, size: 20),
+                        const SizedBox(width: 10),
+                        Text(
+                          d.nama,
+                          style: TextStyle(
+                            fontFamily: 'PlusJakartaSans',
+                            color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ],
+              onChanged: (value) {
+                ref.read(selectedDompetFilterProvider.notifier).set(value);
+                ref.read(bulananPageProvider.notifier).reset();
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 }
