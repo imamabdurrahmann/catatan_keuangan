@@ -15,6 +15,7 @@ import '../insights/insights_page.dart';
 import '../profiles/profile_selector_sheet.dart';
 import '../gamification/smart_receipt_folder_page.dart';
 import '../gamification/user_level_widget.dart';
+import '../../services/auth_service.dart';
 
 class TabLainnya extends ConsumerStatefulWidget {
   const TabLainnya({super.key});
@@ -106,6 +107,72 @@ class _TabLainnyaState extends ConsumerState<TabLainnya>
             title: 'Panduan Aplikasi',
             subtitle: 'Pelajari cara menggunakan aplikasi',
             onTap: () => _showPanduan(context),
+          ),
+          const SizedBox(height: 8),
+          // Logout button
+          _GlassMenuTile(
+            icon: Icons.logout_rounded,
+            title: 'Keluar Akun',
+            subtitle: 'Keluar dari akun Google Anda',
+            isDestructive: true,
+            onTap: () async {
+              final confirm = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: isDark ? AppColors.darkSurface : Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(
+                      color: isDark ? AppColors.darkBorder : AppColors.lightBorder,
+                    ),
+                  ),
+                  title: Text(
+                    'Keluar Akun',
+                    style: TextStyle(
+                      fontFamily: 'PlusJakartaSans',
+                      fontWeight: FontWeight.w700,
+                      color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+                    ),
+                  ),
+                  content: Text(
+                    'Apakah Anda yakin ingin keluar dari aplikasi?',
+                    style: TextStyle(
+                      fontFamily: 'PlusJakartaSans',
+                      color: isDark ? Colors.white70 : const Color(0xFF6B7280),
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: Text(
+                        'Batal',
+                        style: TextStyle(
+                          fontFamily: 'PlusJakartaSans',
+                          fontWeight: FontWeight.w600,
+                          color: isDark ? Colors.white54 : Colors.grey,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.redAccent,
+                      ),
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text(
+                        'Keluar',
+                        style: TextStyle(
+                          fontFamily: 'PlusJakartaSans',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+              if (confirm == true) {
+                await AuthService.instance.signOut();
+              }
+            },
           ),
         ],
       ),
@@ -622,18 +689,22 @@ class _GlassMenuTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback onTap;
+  final bool isDestructive;
 
   const _GlassMenuTile({
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.onTap,
+    this.isDestructive = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final accentColor = isDark ? AppColors.emerald : AppColors.primaryMid;
+    final accentColor = isDestructive
+        ? Colors.redAccent
+        : (isDark ? AppColors.emerald : AppColors.primaryMid);
 
     return Material(
       color: Colors.transparent,
@@ -663,15 +734,20 @@ class _GlassMenuTile extends StatelessWidget {
                       title,
                       style: AppTypography.titleMedium(
                         context,
-                      ).copyWith(fontWeight: FontWeight.w600),
+                      ).copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: isDestructive
+                            ? Colors.redAccent
+                            : (isDark ? Colors.white : const Color(0xFF1A1A2E)),
+                      ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
                       style: AppTypography.bodyMedium(context).copyWith(
-                        color: isDark
-                            ? Colors.white54
-                            : const Color(0xFF6B7280),
+                        color: isDestructive
+                            ? Colors.redAccent.withValues(alpha: 0.7)
+                            : (isDark ? Colors.white54 : const Color(0xFF6B7280)),
                       ),
                     ),
                   ],
@@ -680,7 +756,9 @@ class _GlassMenuTile extends StatelessWidget {
               Icon(
                 Icons.chevron_right_rounded,
                 size: 20,
-                color: isDark ? Colors.white38 : Colors.grey,
+                color: isDestructive
+                    ? Colors.redAccent.withValues(alpha: 0.5)
+                    : (isDark ? Colors.white38 : Colors.grey),
               ),
             ],
           ),
