@@ -103,12 +103,14 @@ class AuthService {
       }
 
       final googleAuth = await googleUser.authentication;
-      final accessToken = googleAuth.accessToken;
       final idToken = googleAuth.idToken;
 
-      if (accessToken == null) {
-        throw AuthException('Gagal mendapatkan Access Token dari Google.');
-      }
+      final clientAuth = await googleUser.authorizationClient.authorizeScopes([
+        'email',
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'openid',
+      ]);
+      final accessToken = clientAuth.accessToken;
 
       if (idToken == null) {
         throw AuthException('Gagal mendapatkan ID Token dari Google.');
