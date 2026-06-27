@@ -2,10 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:catatan_keuangan/services/budget_alert_service.dart';
 import 'package:catatan_keuangan/data/database_helper.dart';
 import 'package:catatan_keuangan/models/models.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../test_helper.dart';
 
 void main() {
   setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({});
     initializeTestEnvironment();
     await DatabaseHelper.resetForTesting();
     await DatabaseHelper.instance.database;

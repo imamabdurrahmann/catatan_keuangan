@@ -26,8 +26,9 @@ class BudgetProgressSection extends ConsumerWidget {
           loading: () => const SizedBox(),
           error: (_, __) => const SizedBox(),
           data: (budgets) {
-            if (budgets.isEmpty)
+            if (budgets.isEmpty) {
               return const EmptyStateCard(message: 'Belum ada anggaran');
+            }
 
             final summaries = summaryAsync.value ?? {};
 

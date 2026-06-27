@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart' as date_data;
-import 'package:catatan_keuangan/models/models.dart';
-import 'package:catatan_keuangan/theme/app_theme.dart';
+import 'package:catatan_keuangan/theme/theme.dart';
 
 void main() {
   setUpAll(() async {

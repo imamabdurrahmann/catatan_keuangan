@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 // ==================== FORMAT CURRENCY ====================
 String formatRupiah(double amount) {
   final isNegative = amount < 0;
-  final absAmount = amount.abs();
+  final absAmount = amount.abs().toInt();
   final formatted = NumberFormat('#,##0', 'id_ID').format(absAmount);
   if (isNegative) return '($formatted)';
   return formatted;
@@ -17,7 +17,7 @@ double parseRupiah(String text) {
 
 String formatRupiahDenganPrefix(double amount) {
   final isNegative = amount < 0;
-  final absAmount = amount.abs();
+  final absAmount = amount.abs().toInt();
   final formatted = NumberFormat('#,##0', 'id_ID').format(absAmount);
   if (isNegative) return 'Rp ($formatted)';
   return 'Rp $formatted';

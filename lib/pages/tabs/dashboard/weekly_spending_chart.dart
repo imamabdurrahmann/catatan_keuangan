@@ -112,8 +112,9 @@ class _WeeklyBarChart extends ConsumerWidget {
                     reservedSize: 24,
                     getTitlesWidget: (value, meta) {
                       final index = value.toInt();
-                      if (index < 0 || index >= days.length)
+                      if (index < 0 || index >= days.length) {
                         return const SizedBox();
+                      }
                       const dayNames = [
                         'Sen',
                         'Sel',

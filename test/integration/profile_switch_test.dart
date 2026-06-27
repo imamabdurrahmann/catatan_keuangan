@@ -80,19 +80,11 @@ void main() {
         expect(value, isA<AsyncValue<List<Profil>>>());
       });
 
-      test('selectedProfilProvider returns AsyncValue structure', () {
+      test('activeProfilProvider returns int', () {
         final container = ProviderContainer();
         addTearDown(container.dispose);
 
-        final value = container.read(selectedProfilProvider);
-        expect(value, isA<AsyncValue<Profil?>>());
-      });
-
-      test('currentProfilIdProvider returns int', () {
-        final container = ProviderContainer();
-        addTearDown(container.dispose);
-
-        final value = container.read(currentProfilIdProvider);
+        final value = container.read(activeProfilProvider);
         expect(value, isA<int>());
       });
     });
@@ -110,7 +102,7 @@ void main() {
               theme: buildLightTheme(),
               home: Scaffold(
                 body: DropdownButtonFormField<int>(
-                  value: 1,
+                  initialValue: 1,
                   items: profiles.map((p) {
                     return DropdownMenuItem(
                       value: p.id,
@@ -124,7 +116,11 @@ void main() {
           ),
         );
 
-        expect(find.text('Personal'), findsOneWidget);
+        // Tap the dropdown to show items
+        await tester.tap(find.text('Personal'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Personal'), findsWidgets);
         expect(find.text('Work'), findsOneWidget);
       });
 
@@ -170,13 +166,13 @@ void main() {
         final container = ProviderContainer();
 
         // Get initial profile
-        final initialId = container.read(currentProfilIdProvider);
+        final initialId = container.read(activeProfilProvider);
         expect(initialId, isNotNull);
 
-        // Override for testing
-        await container.read(currentProfilIdProvider.notifier).update((state) => 2);
+        // Switch profile
+        container.read(activeProfilProvider.notifier).setProfil(2);
 
-        final updatedId = container.read(currentProfilIdProvider);
+        final updatedId = container.read(activeProfilProvider);
         expect(updatedId, equals(2));
 
         container.dispose();

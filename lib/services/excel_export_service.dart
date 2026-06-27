@@ -186,7 +186,7 @@ class ExcelExportService {
       final bulanLabel = bulan != null
           ? DateFormat('MMMM_yyyy', 'id_ID').format(DateTime(tahun ?? 2024, bulan))
           : 'semua';
-      final fileName = 'DompetKu_export_$bulanLabel\_$timestamp.xlsx';
+      final fileName = 'DompetKu_export_${bulanLabel}_$timestamp.xlsx';
       final file = File('${dir.path}/$fileName');
 
       final List<int>? fileBytes = excel.encode();

@@ -255,6 +255,10 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(Dismissible), findsOneWidget);
+
+      await tester.drag(find.byType(Dismissible), const Offset(-500, 0));
+      await tester.pumpAndSettle();
+      expect(dismissed, isTrue);
     });
 
     testWidgets('does not show dismissible when onDismissed is null', (tester) async {

@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:catatan_keuangan/services/export_service.dart';
 import 'package:catatan_keuangan/data/database_helper.dart';
 import '../test_helper.dart';
@@ -25,6 +24,12 @@ void main() {
 
   tearDownAll(() async {
     await DatabaseHelper.resetForTesting();
+  });
+
+  setUp(() async {
+    final db = await DatabaseHelper.instance.database;
+    await db.delete('transaksi');
+    await db.delete('dompet');
   });
 
   group('Export Service Integration Tests', () {

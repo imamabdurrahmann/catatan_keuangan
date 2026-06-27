@@ -1,9 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:catatan_keuangan/services/export_service.dart';
+import 'package:catatan_keuangan/data/database_helper.dart';
+import '../test_helper.dart';
 
 void main() {
   group('ExportService Private Methods', () {
     late ExportService exportService;
+
+    setUpAll(() async {
+      initializeTestEnvironment();
+      await DatabaseHelper.resetForTesting();
+    });
 
     setUp(() {
       exportService = ExportService.instance;

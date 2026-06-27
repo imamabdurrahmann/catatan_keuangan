@@ -107,7 +107,7 @@ class AuthService {
         throw AuthException('Google Sign-In gagal atau dibatalkan: $e');
       }
 
-      final googleAuth = await googleUser.authentication;
+      final googleAuth = googleUser.authentication;
       final idToken = googleAuth.idToken;
 
       final clientAuth = await googleUser.authorizationClient.authorizeScopes([

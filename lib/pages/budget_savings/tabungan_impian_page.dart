@@ -271,8 +271,9 @@ class _TabunganActionSheetState extends ConsumerState<_TabunganActionSheet> {
                   loading: () => const CircularProgressIndicator(),
                   error: (e, _) => Text('Error: $e'),
                   data: (dompetList) {
-                    if (dompetList.isEmpty)
+                    if (dompetList.isEmpty) {
                       return const Text('Belum ada dompet');
+                    }
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
@@ -318,8 +319,9 @@ class _TabunganActionSheetState extends ConsumerState<_TabunganActionSheet> {
                             );
                           }).toList(),
                           onChanged: (val) {
-                            if (val != null)
+                            if (val != null) {
                               setState(() => _selectedDompetId = val);
+                            }
                           },
                         ),
                       ),

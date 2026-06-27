@@ -358,8 +358,9 @@ class _EditTransaksiSheetState extends ConsumerState<EditTransaksiSheet> {
                         loading: () => const CircularProgressIndicator(),
                         error: (e, _) => Text('Error: $e'),
                         data: (dompetList) {
-                          if (dompetList.isEmpty)
+                          if (dompetList.isEmpty) {
                             return const Text('Belum ada dompet');
+                          }
                           return Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             decoration: BoxDecoration(
@@ -404,8 +405,9 @@ class _EditTransaksiSheetState extends ConsumerState<EditTransaksiSheet> {
                                   );
                                 }).toList(),
                                 onChanged: (val) {
-                                  if (val != null)
+                                  if (val != null) {
                                     setState(() => _selectedDompetId = val);
+                                  }
                                 },
                               ),
                             ),

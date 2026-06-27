@@ -412,8 +412,9 @@ class _AddUtangPiutangSheetState extends ConsumerState<_AddUtangPiutangSheet> {
                   loading: () => const CircularProgressIndicator(),
                   error: (e, _) => Text('Error: $e'),
                   data: (dompetList) {
-                    if (dompetList.isEmpty)
+                    if (dompetList.isEmpty) {
                       return const Text('Belum ada dompet');
+                    }
                     final isDark =
                         Theme.of(context).brightness == Brightness.dark;
                     return Container(
@@ -451,8 +452,9 @@ class _AddUtangPiutangSheetState extends ConsumerState<_AddUtangPiutangSheet> {
                             );
                           }).toList(),
                           onChanged: (val) {
-                            if (val != null)
+                            if (val != null) {
                               setState(() => _selectedDompetId = val);
+                            }
                           },
                         ),
                       ),
@@ -644,8 +646,9 @@ class _PayDialogState extends ConsumerState<_PayDialog> {
                     loading: () => const CircularProgressIndicator(),
                     error: (e, _) => Text('Error: $e'),
                     data: (dompetList) {
-                      if (dompetList.isEmpty)
+                      if (dompetList.isEmpty) {
                         return const Text('Belum ada dompet');
+                      }
                       return Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         decoration: BoxDecoration(
@@ -691,8 +694,9 @@ class _PayDialogState extends ConsumerState<_PayDialog> {
                               );
                             }).toList(),
                             onChanged: (val) {
-                              if (val != null)
+                              if (val != null) {
                                 setState(() => _selectedDompetId = val);
+                              }
                             },
                           ),
                         ),

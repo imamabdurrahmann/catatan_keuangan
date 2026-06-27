@@ -13,7 +13,6 @@ import '../../widgets/shared_widgets.dart';
 import '../../widgets/common/widgets.dart';
 import '../../utils/ui_utils.dart';
 import '../../theme/theme.dart';
-import '../../widgets/common/glass_button.dart';
 import 'tambah_transaksi_widgets.dart';
 
 class TambahTransaksiSheet extends ConsumerStatefulWidget {
@@ -504,8 +503,9 @@ class _TambahTransaksiSheetState extends ConsumerState<TambahTransaksiSheet> {
                               loading: () => const ShimmerFormField(),
                               error: (e, _) => Text('Error: $e'),
                               data: (dompetList) {
-                                if (dompetList.isEmpty)
+                                if (dompetList.isEmpty) {
                                   return const Text('Belum ada dompet');
+                                }
                                 return Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 16),
                                   decoration: BoxDecoration(
@@ -550,8 +550,9 @@ class _TambahTransaksiSheetState extends ConsumerState<TambahTransaksiSheet> {
                                         );
                                       }).toList(),
                                       onChanged: (val) {
-                                        if (val != null)
+                                        if (val != null) {
                                           setState(() => _selectedDompetId = val);
+                                        }
                                       },
                                     ),
                                   ),

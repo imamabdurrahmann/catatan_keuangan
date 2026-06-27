@@ -399,8 +399,9 @@ class _ManageProfilesPageState extends ConsumerState<ManageProfilesPage> {
       );
       final db = await DatabaseHelper.instance.database;
       for (final b in budgets) {
-        if (b.id != null)
+        if (b.id != null) {
           await db.delete('budget', where: 'id = ?', whereArgs: [b.id]);
+        }
       }
 
       await DatabaseHelper.instance.deleteProfil(profilId);
