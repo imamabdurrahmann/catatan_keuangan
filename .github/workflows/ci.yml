@@ -13,7 +13,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.19.0
+          flutter-version: 3.41.7
           cache: true
           pub-cache: true
       - run: flutter pub get
@@ -27,7 +27,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.19.0
+          flutter-version: 3.41.7
           cache: true
           pub-cache: true
       - run: flutter pub get
@@ -47,7 +47,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.19.0
+          flutter-version: 3.41.7
           cache: true
           pub-cache: true
       - run: flutter pub get
@@ -68,7 +68,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: 3.19.0
+          flutter-version: 3.41.7
           cache: true
           pub-cache: true
       - run: flutter pub get
