@@ -30,10 +30,10 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           echo "$KEYSTORE_BASE64" | base64 -d > android/app/release.jks
-          echo "storePassword=$KEYSTORE_PASSWORD" > android/key.properties
-          echo "keyPassword=$KEY_PASSWORD" >> android/key.properties
-          echo "keyAlias=$KEY_ALIAS" >> android/key.properties
-          echo "storeFile=app/release.jks" >> android/key.properties
+          echo "KEYSTORE_FILE=release.jks" >> local.properties
+          echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> local.properties
+          echo "KEY_ALIAS=$KEY_ALIAS" >> local.properties
+          echo "KEY_PASSWORD=$KEY_PASSWORD" >> local.properties
 
       - name: Parse version
         id: version
