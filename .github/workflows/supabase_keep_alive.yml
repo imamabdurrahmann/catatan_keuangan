@@ -12,6 +12,6 @@ jobs:
     steps:
       - name: Ping Supabase API to keep project active
         run: |
-          curl -i -X GET "https://bemencvwjhaxbtgbqxdb.supabase.co/rest/v1/" \
-            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlbWVuY3Z3amhheGJ0Z2JxeGRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MzU2MjksImV4cCI6MjA5NTUxMTYyOX0.8N78wwpEccOq8PkUGUkS_9EpsEMZ304u0nZ9pbJjlXg" \
-            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJlbWVuY3Z3amhheGJ0Z2JxeGRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5MzU2MjksImV4cCI6MjA5NTUxMTYyOX0.8N78wwpEccOq8PkUGUkS_9EpsEMZ304u0nZ9pbJjlXg"
+          curl -i -X GET "https://xrwtmiljnpifsvmblrqi.supabase.co/rest/v1/" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhyd3RtaWxqbnBpZnN2bWJscnFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5OTM3NDcsImV4cCI6MjA5NDU2OTc0N30.DlXDe7V8MORo2NHp8nKyp_r56iSNEd96WxKLho5pcw8" \
+            -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inhyd3RtaWxqbnBpZnN2bWJscnFpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5OTM3NDcsImV4cCI6MjA5NDU2OTc0N30.DlXDe7V8MORo2NHp8nKyp_r56iSNEd96WxKLho5pcw8"
