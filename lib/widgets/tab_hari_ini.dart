@@ -5,6 +5,7 @@ import '../models/constants.dart';
 import '../providers.dart';
 import '../theme/theme.dart';
 import '../utils/formatters.dart';
+import '../data/database_helper.dart';
 import 'transaksi_item_card.dart';
 
 class TabHariIni extends ConsumerWidget {
@@ -172,6 +173,35 @@ class TabHariIni extends ConsumerWidget {
                             itemBuilder: (context, index) {
                               return TransaksiItemCard(
                                 transaksi: txList[index],
+                                onDismissed: () async {
+                                  final tx = txList[index];
+                                  final id = tx.id;
+                                  if (id != null) {
+                                    await DatabaseHelper.instance.softDeleteTransaksi(id);
+                                    ref.read(updateSignalsProvider.notifier).signal('transaksi');
+                                    ref.invalidate(transaksiProvider);
+                                    ref.invalidate(dompetProvider);
+
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context).clearSnackBars();
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text('Transaksi "${tx.deskripsi.isEmpty ? tx.kategori : tx.deskripsi}" dihapus'),
+                                          action: SnackBarAction(
+                                            label: 'BATAL',
+                                            onPressed: () async {
+                                              await DatabaseHelper.instance.restoreTransaksi(id);
+                                              ref.read(updateSignalsProvider.notifier).signal('transaksi');
+                                              ref.invalidate(transaksiProvider);
+                                              ref.invalidate(dompetProvider);
+                                            },
+                                          ),
+                                          behavior: SnackBarBehavior.floating,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
                               );
                             },
                           ),

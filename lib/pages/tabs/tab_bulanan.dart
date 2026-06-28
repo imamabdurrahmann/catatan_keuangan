@@ -7,6 +7,7 @@ import '../../widgets/common/glass_container.dart';
 import '../../utils/formatters.dart';
 import '../../utils/ui_utils.dart';
 import '../../widgets/transaksi_item_card.dart';
+import '../../data/database_helper.dart';
 import 'shared_tab_widgets.dart';
 
 class TabBulanan extends ConsumerStatefulWidget {
@@ -320,7 +321,38 @@ class _BulananContentState extends ConsumerState<_BulananContent> {
                       error: (_, __) => const SizedBox(height: 0),
                     );
                   }
-                  return TransaksiItemCard(transaksi: txList[index]);
+                  return TransaksiItemCard(
+                    transaksi: txList[index],
+                    onDismissed: () async {
+                      final tx = txList[index];
+                      final id = tx.id;
+                      if (id != null) {
+                        await DatabaseHelper.instance.softDeleteTransaksi(id);
+                        ref.read(updateSignalsProvider.notifier).signal('transaksi');
+                        ref.invalidate(transaksiProvider);
+                        ref.invalidate(dompetProvider);
+
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Transaksi "${tx.deskripsi.isEmpty ? tx.kategori : tx.deskripsi}" dihapus'),
+                              action: SnackBarAction(
+                                label: 'BATAL',
+                                onPressed: () async {
+                                  await DatabaseHelper.instance.restoreTransaksi(id);
+                                  ref.read(updateSignalsProvider.notifier).signal('transaksi');
+                                  ref.invalidate(transaksiProvider);
+                                  ref.invalidate(dompetProvider);
+                                },
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                            ),
+                          );
+                        }
+                      }
+                    },
+                  );
                 }, childCount: txList.length + 1),
               );
             },

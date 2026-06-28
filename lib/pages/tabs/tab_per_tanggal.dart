@@ -8,6 +8,7 @@ import '../../theme/theme.dart';
 import '../../widgets/common/glass_container.dart';
 import '../../widgets/staggered_list_item.dart';
 import '../../widgets/transaksi_item_card.dart';
+import '../../data/database_helper.dart';
 import 'shared_tab_widgets.dart';
 
 class TabPerTanggal extends ConsumerStatefulWidget {
@@ -281,7 +282,38 @@ class _TabPerTanggalState extends ConsumerState<TabPerTanggal>
                     }
                     return StaggeredListItem(
                       index: index,
-                      child: TransaksiItemCard(transaksi: transaksi[index]),
+                      child: TransaksiItemCard(
+                        transaksi: transaksi[index],
+                        onDismissed: () async {
+                          final tx = transaksi[index];
+                          final id = tx.id;
+                          if (id != null) {
+                            await DatabaseHelper.instance.softDeleteTransaksi(id);
+                            ref.read(updateSignalsProvider.notifier).signal('transaksi');
+                            ref.invalidate(transaksiProvider);
+                            ref.invalidate(dompetProvider);
+
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Transaksi "${tx.deskripsi.isEmpty ? tx.kategori : tx.deskripsi}" dihapus'),
+                                  action: SnackBarAction(
+                                    label: 'BATAL',
+                                    onPressed: () async {
+                                      await DatabaseHelper.instance.restoreTransaksi(id);
+                                      ref.read(updateSignalsProvider.notifier).signal('transaksi');
+                                      ref.invalidate(transaksiProvider);
+                                      ref.invalidate(dompetProvider);
+                                    },
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
+                          }
+                        },
+                      ),
                     );
                   },
                 ),
