@@ -110,7 +110,7 @@ class UtangPiutangPage extends ConsumerWidget {
             ? AppColors.coral
             : AppColors.emerald;
 
-        return Card(
+        final card = Card(
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           elevation: 2,
           shape: RoundedRectangleBorder(
@@ -221,6 +221,55 @@ class UtangPiutangPage extends ConsumerWidget {
               ),
             ],
           ),
+        );
+
+        return Dismissible(
+          key: Key('utang_piutang_${item.id}'),
+          direction: DismissDirection.endToStart,
+          background: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 20),
+            decoration: BoxDecoration(
+              color: AppColors.coral.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Icon(Icons.delete_rounded, color: AppColors.coral),
+          ),
+          confirmDismiss: (direction) async {
+            return await showDialog<bool>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                title: const Text('Hapus Data'),
+                content: const Text(
+                  'Yakin ingin menghapus riwayat ini secara permanen?',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, false),
+                    child: const Text('Batal'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pop(ctx, true),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.coral,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text('Hapus'),
+                  ),
+                ],
+              ),
+            );
+          },
+          onDismissed: (_) async {
+            await DatabaseHelper.instance.deleteUtangPiutang(item.id!);
+            ref.read(updateSignalsProvider.notifier).signal('utangPiutang');
+          },
+          child: card,
         );
       },
     );
